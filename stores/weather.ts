@@ -22,6 +22,7 @@ export const useWeather = defineStore('weather', () => {
       );
 
       const data = await response.json();
+      console.log(data);
       suggestions.value = data.map((location: any) => ({
         id: location.id,
         location_name: location.name,
@@ -34,6 +35,7 @@ export const useWeather = defineStore('weather', () => {
       suggestions.value = [];
     } finally {
       isSuggestionsLoading.value = false;
+      console.log(suggestions.value);
     }
   };
 
@@ -57,8 +59,8 @@ export const useWeather = defineStore('weather', () => {
 
     try {
       const weatherPromises = locations.map(async (location: Favorite): Promise<DetailedLocationWeather> => {
-        const {id} = location;
-        return getWeatherDataById(id)
+        const {lat, lon} = location;
+        return getWeatherDataByCords(lat, lon)
       });
       locationsWeatherData.value = await Promise.all(weatherPromises);
     } catch (error) {
@@ -67,15 +69,15 @@ export const useWeather = defineStore('weather', () => {
     }
   };
 
-  async function getWeatherDataById(id: number): Promise<DetailedLocationWeather> {
-    const cachedData = locationsWeatherData.value.find((data: any) => data.id === id);
+  async function getWeatherDataByCords(lat: number, lon: number): Promise<DetailedLocationWeather> {
+    const cachedData = locationsWeatherData.value.find((data: any) => data.coord.lat === lat && data.coord.lon === lon);
 
     if (cachedData) {
       return cachedData;
     }
 
     try {
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${apiKey}&units=metric`);
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`);
 
       const data: WeatherApiResponse = await response.json();
 
@@ -136,7 +138,7 @@ export const useWeather = defineStore('weather', () => {
     isSuggestionsLoading,
     fetchSuggestions,
     fetchWeatherDetails,
-    getWeatherDataById,
+    getWeatherDataByCords,
     getFavoriteLocations,
     saveFavoriteLocation,
     deleteFavoriteLocation,

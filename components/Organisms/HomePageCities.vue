@@ -7,7 +7,7 @@ const weather = useWeather()
 <template>
   <div class="cities">
     <HomePageCity
-        @click="navigateTo(`cities/${city.id}`)"
+        @click="navigateTo(`cities/?lat=${city.coord.lat}&lon=${city.coord.lon}`)"
         v-for="city in weather.locationsWeatherData"
         :key="city.id"
         :city-details="city"

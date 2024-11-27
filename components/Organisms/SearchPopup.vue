@@ -2,6 +2,7 @@
 import HeaderSearchInput from "~/components/Molecules/HeaderSearchInput.vue";
 import {CModal, CModalBody} from "@coreui/vue/dist/esm/components/modal";
 import PageLoader from "~/components/Molecules/PageLoader.vue";
+import type {SearchResult} from "~/types/weather";
 
 const props = defineProps(['searchPopupIsOpen'])
 const emit = defineEmits(['toggleSearchPopup'])
@@ -13,7 +14,10 @@ const isOpen = computed({
 
 const weather = useWeather()
 
-watchEffect(() => console.log(weather.suggestions))
+const zoomInSuggestion = (suggestion: SearchResult) => {
+  emit('toggleSearchPopup')
+  navigateTo(`cities/?lat=${suggestion.lat}&lon=${suggestion.lon}`)
+}
 </script>
 
 <template>
@@ -34,7 +38,11 @@ watchEffect(() => console.log(weather.suggestions))
             No results found.
           </div>
           <PageLoader v-if="weather.isSuggestionsLoading"/>
-          <div v-else v-for="suggestion in weather.suggestions">
+          <div
+            v-else
+            v-for="suggestion in weather.suggestions"
+            @click="zoomInSuggestion(suggestion)"
+          >
             {{ suggestion.location_name }}, {{ suggestion.location_country }}
           </div>
         </div>

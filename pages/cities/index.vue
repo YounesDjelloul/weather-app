@@ -5,7 +5,8 @@ import type {DetailedLocationWeather} from "~/types/weather";
 import PageLoader from "~/components/Molecules/PageLoader.vue";
 
 const route = useRoute()
-const cityId = parseInt(route.params.id)
+const lat = Number(route.query.lat)
+const lon = Number(route.query.lon)
 
 const weather = useWeather()
 const cityDetails: Ref<DetailedLocationWeather | undefined> = ref(undefined)
@@ -14,7 +15,7 @@ const isLoading = ref(true)
 
 onMounted(async () => {
   try {
-    cityDetails.value = await weather.getWeatherDataById(cityId)
+    cityDetails.value = await weather.getWeatherDataByCords(lat, lon)
   } catch (e) {
     console.error(e)
   } finally {
