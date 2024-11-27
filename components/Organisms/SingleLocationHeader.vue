@@ -1,13 +1,41 @@
 <script setup lang="ts">
+import {inject} from 'vue'
+import type {LocationWeather} from "~/types/weather";
 
+const weather = useWeather()
+
+const cityDetails: Ref<LocationWeather> | undefined = inject('cityDetails')
+
+const getCitySavingDetails = () => {
+  return {
+    id: cityDetails?.value.id,
+    lat: cityDetails?.value.coord.lat,
+    lon: cityDetails?.value.coord.lon
+  }
+}
+
+const actionIconToShow = computed(() => weather.isLocationInFavorite(cityDetails?.value.id) ? 'mynaui:trash-solid' : 'mingcute:add-line')
+
+const handleAction = () => {
+  if (weather.isLocationInFavorite(cityDetails?.value.id)) {
+    weather.deleteFavoriteLocation(cityDetails?.value.id)
+    return
+  }
+
+  weather.saveFavoriteLocation(getCitySavingDetails())
+}
 </script>
 
 <template>
   <header class="single-location-header">
     <div class="single-location-header__navigation">
       <Icon class="single-location-header__navigation__back-action" name="ep:arrow-left" @click="navigateTo('/')"/>
-      <span class="single-location-header__navigation__location">Milan, Italy</span>
-      <Icon class="single-location-header__navigation__save-action" name="mingcute:add-line"/>
+      <span class="single-location-header__navigation__location">{{ cityDetails?.location_name }}</span>
+      <Icon
+          @click="handleAction"
+          class="single-location-header__navigation__save-action"
+          :name="actionIconToShow"
+      />
     </div>
     <div class="single-location-header__date">
       Monday, 20 December 2021

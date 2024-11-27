@@ -4,6 +4,7 @@ import type {LocationWeather, Location, WeatherApiResponse, DetailedLocationWeat
 const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
 
 export const useWeather = defineStore('weather', () => {
+  const FAVORITES_KEY = 'favorite_locations';
   const suggestions = ref([]);
   const locationsWeatherData: Ref<LocationWeather[]> = ref([]);
 
@@ -39,7 +40,6 @@ export const useWeather = defineStore('weather', () => {
     const localTime = new Date((dt + timezone) * 1000);
     return localTime.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
   }
-
 
   const fetchWeatherDetails = async (locations: Location[]) => {
     if (!locations.length) {
@@ -91,13 +91,13 @@ export const useWeather = defineStore('weather', () => {
       const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${apiKey}&units=metric`);
       const data = await response.json();
 
-      const { lat, lon } = data.coord;
-
-      const forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,daily,alerts&appid=${apiKey}&units=metric`);
-      const forecastData = await forecastResponse.json();
-
-      const weeklyForecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`);
-      const weeklyData = await weeklyForecastResponse.json();
+      // const {lat, lon} = data.coord;
+      //
+      // const forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,daily,alerts&appid=${apiKey}&units=metric`);
+      // const forecastData = await forecastResponse.json();
+      //
+      // const weeklyForecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`);
+      // const weeklyData = await weeklyForecastResponse.json();
 
       const weatherData: DetailedLocationWeather = {
         id: data.id,
@@ -111,17 +111,20 @@ export const useWeather = defineStore('weather', () => {
           lat: Math.trunc(data.coord.lat),
         },
         weather_icon_url: `https://openweathermap.org/img/wn/${data.weather[0]?.icon}@2x.png`,
-        hourly_forecast: forecastData.hourly.map((hour: any) => ({
-          time: new Date((hour.dt + data.timezone) * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
-          temperature: Math.round(hour.temp),
-          weather_condition: hour.weather[0]?.description || 'No description',
-        })),
-        weekly_forecast: weeklyData.daily.map((day: any) => ({
-          date: new Date((day.dt + data.timezone) * 1000).toLocaleDateString('en-US', { weekday: 'long' }),
-          temperature_min: Math.round(day.temp.min),
-          temperature_max: Math.round(day.temp.max),
-          weather_condition: day.weather[0]?.description || 'No description',
-        })),
+        // hourly_forecast: forecastData.hourly.map((hour: any) => ({
+        //   time: new Date((hour.dt + data.timezone) * 1000).toLocaleTimeString('en-US', {
+        //     hour: '2-digit',
+        //     minute: '2-digit'
+        //   }),
+        //   temperature: Math.round(hour.temp),
+        //   weather_condition: hour.weather[0]?.description || 'No description',
+        // })),
+        // weekly_forecast: weeklyData.daily.map((day: any) => ({
+        //   date: new Date((day.dt + data.timezone) * 1000).toLocaleDateString('en-US', {weekday: 'long'}),
+        //   temperature_min: Math.round(day.temp.min),
+        //   temperature_max: Math.round(day.temp.max),
+        //   weather_condition: day.weather[0]?.description || 'No description',
+        // })),
       };
 
       // locationsWeatherData.value.push(weatherData);
@@ -132,12 +135,46 @@ export const useWeather = defineStore('weather', () => {
     }
   }
 
+  const getFavoriteLocations = () => {
+    const favorites = localStorage.getItem(FAVORITES_KEY);
+    return favorites ? JSON.parse(favorites) : [];
+  }
+
+  const saveFavoriteLocation = (coord: { id: number, lat: number, lon: number }) => {
+    const favorites = getFavoriteLocations();
+
+    console.log(favorites);
+    console.log(coord);
+
+    if (!favorites.some((fav: any) => fav.id === coord.id)) {
+      favorites.push(coord);
+
+      localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+    }
+  }
+
+  const deleteFavoriteLocation = (id: number) => {
+    const favorites = getFavoriteLocations();
+    const updatedFavorites = favorites.filter((fav: any) => fav.id !== id);
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(updatedFavorites));
+  }
+
+  const isLocationInFavorite = (id: number) => {
+    const favorites = getFavoriteLocations();
+    const favorite = favorites.filter((fav: any) => fav.id === id);
+
+    return favorite.length > 0;
+  }
 
   return {
     suggestions,
     locationsWeatherData,
     fetchSuggestions,
     fetchWeatherDetails,
-    getWeatherDataById
+    getWeatherDataById,
+    getFavoriteLocations,
+    saveFavoriteLocation,
+    deleteFavoriteLocation,
+    isLocationInFavorite
   }
 })

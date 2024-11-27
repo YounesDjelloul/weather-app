@@ -29,12 +29,12 @@ export interface DetailedLocationWeather {
         lat: number
     },
     weather_icon_url: string
-    hourly_forecast: {
+    hourly_forecast?: {
         time: string
         temperature: number
         weather_condition: string
     }
-    weekly_forecast: {
+    weekly_forecast?: {
         date: string
         temperature_min: number
         temperature_max: number
