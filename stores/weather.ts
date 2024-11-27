@@ -34,7 +34,6 @@ export const useWeather = defineStore('weather', () => {
       }));
     } finally {
       suggestions.value = [];
-      console.log('hey')
     }
   };
 
