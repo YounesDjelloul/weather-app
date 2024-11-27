@@ -1,22 +1,3 @@
-export interface Location {
-    lat: number
-    lon: number
-    name: string
-}
-
-export interface LocationWeather {
-    id: number
-    location_name: string
-    weather_condition: string
-    temperature: number
-    time: string
-    coord: {
-        lon: number
-        lat: number
-    },
-    weather_icon_url: string
-}
-
 export interface Favorite { id: number, lat: number, lon: number }
 
 export interface DetailedLocationWeather {

@@ -1,12 +1,12 @@
 import {defineStore} from "pinia";
-import type {LocationWeather, Location, WeatherApiResponse, DetailedLocationWeather, Favorite} from "~/types/weather";
+import type {WeatherApiResponse, DetailedLocationWeather, Favorite} from "~/types/weather";
 
 const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
 
 export const useWeather = defineStore('weather', () => {
   const FAVORITES_KEY = 'favorite_locations';
   const suggestions = ref([]);
-  const locationsWeatherData: Ref<LocationWeather[]> = ref([]);
+  const locationsWeatherData: Ref<DetailedLocationWeather[]> = ref([]);
 
   const fetchSuggestions = async (query: string) => {
     if (!query) {
@@ -55,7 +55,7 @@ export const useWeather = defineStore('weather', () => {
     }
 
     try {
-      const weatherPromises = locations.map(async (location: Favorite): Promise<LocationWeather> => {
+      const weatherPromises = locations.map(async (location: Favorite): Promise<DetailedLocationWeather> => {
         const {id} = location;
         return getWeatherDataById(id)
       });
@@ -66,7 +66,7 @@ export const useWeather = defineStore('weather', () => {
     }
   };
 
-  async function getWeatherDataById(id: number): Promise<LocationWeather> {
+  async function getWeatherDataById(id: number): Promise<DetailedLocationWeather> {
     const cachedData = locationsWeatherData.value.find((data: any) => data.id === id);
 
     if (cachedData) {

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { provide } from 'vue'
 import SingleLocation from "~/components/Organisms/SingleLocation.vue";
-import type {LocationWeather} from "~/types/weather";
+import type {DetailedLocationWeather} from "~/types/weather";
 import PageLoader from "~/components/Molecules/PageLoader.vue";
 
 const route = useRoute()
 const cityId = parseInt(route.params.id)
 
 const weather = useWeather()
-const cityDetails: Ref<LocationWeather | undefined> = ref(undefined)
+const cityDetails: Ref<DetailedLocationWeather | undefined> = ref(undefined)
 provide("cityDetails", cityDetails)
 const isLoading = ref(true)
 
