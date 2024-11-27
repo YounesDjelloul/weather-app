@@ -1,5 +1,13 @@
 export interface Favorite { id: number, lat: number, lon: number }
 
+export interface SearchResult {
+    id: number
+    lat: number
+    lon: number
+    location_name: string
+    location_country: string
+}
+
 export interface DetailedLocationWeather {
     id: number
     location_name: string

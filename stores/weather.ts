@@ -1,38 +1,39 @@
 import {defineStore} from "pinia";
-import type {WeatherApiResponse, DetailedLocationWeather, Favorite} from "~/types/weather";
+import type {WeatherApiResponse, DetailedLocationWeather, Favorite, SearchResult} from "~/types/weather";
 
 const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
 
 export const useWeather = defineStore('weather', () => {
   const FAVORITES_KEY = 'favorite_locations';
-  const suggestions = ref([]);
+  const suggestions: Ref<SearchResult[]> = ref([]);
   const locationsWeatherData: Ref<DetailedLocationWeather[]> = ref([]);
+  const isSuggestionsLoading: Ref<boolean> = ref(false);
 
   const fetchSuggestions = async (query: string) => {
-    if (!query) {
+    if (!query || query.length < 2) {
       suggestions.value = [];
       return;
     }
 
     try {
+      isSuggestionsLoading.value = true
       const response = await fetch(
         `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5&appid=${apiKey}`
       );
 
-      if (!response.ok) {
-        throw new Error(`Error fetching suggestions: ${response.statusText}`);
-      }
-
       const data = await response.json();
       suggestions.value = data.map((location: any) => ({
-        name: location.name,
-        country: location.country,
-        state: location.state || '',
+        id: location.id,
+        location_name: location.name,
+        location_country: location.country,
         lat: location.lat,
         lon: location.lon,
       }));
-    } finally {
+    } catch(e) {
+      console.error(e);
       suggestions.value = [];
+    } finally {
+      isSuggestionsLoading.value = false;
     }
   };
 
@@ -132,6 +133,7 @@ export const useWeather = defineStore('weather', () => {
   return {
     suggestions,
     locationsWeatherData,
+    isSuggestionsLoading,
     fetchSuggestions,
     fetchWeatherDetails,
     getWeatherDataById,

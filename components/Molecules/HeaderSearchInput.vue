@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const weather = useWeather()
+const q = ref('')
 </script>
 
 <template>
@@ -7,7 +9,7 @@
       <div class="search-input__icon">
         <Icon name="si:search-duotone" />
       </div>
-      <input type="text" placeholder="Search for a city or airport">
+      <input v-model="q" @keyup="weather.fetchSuggestions(q)" type="text" placeholder="Search for a city or airport">
     </div>
   </div>
 </template>
