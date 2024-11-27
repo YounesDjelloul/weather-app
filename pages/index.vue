@@ -5,16 +5,11 @@ import PageLoader from "~/components/Molecules/PageLoader.vue";
 
 const weather = useWeather()
 
-const locations = [
-  {name: 'London', lat: 51.5074, lon: -0.1278},
-  {name: 'New York', lat: 40.7128, lon: -74.0060},
-];
-
 const isLoading = ref(true)
 
 onMounted(async () => {
   try {
-    await weather.fetchWeatherDetails(locations)
+    await weather.fetchWeatherDetails()
   } catch (e) {
     console.log(e)
   } finally {

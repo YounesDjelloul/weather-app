@@ -17,6 +17,8 @@ export interface LocationWeather {
     weather_icon_url: string
 }
 
+export interface Favorite { id: number, lat: number, lon: number }
+
 export interface DetailedLocationWeather {
     id: number
     location_name: string
@@ -24,6 +26,7 @@ export interface DetailedLocationWeather {
     weather_condition: string
     temperature: number
     time: string
+    datetime: string
     coord: {
         lon: number
         lat: number

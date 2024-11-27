@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import type {LocationWeather, Location, WeatherApiResponse, DetailedLocationWeather} from "~/types/weather";
+import type {LocationWeather, Location, WeatherApiResponse, DetailedLocationWeather, Favorite} from "~/types/weather";
 
 const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
 
@@ -41,37 +41,23 @@ export const useWeather = defineStore('weather', () => {
     return localTime.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
   }
 
-  const fetchWeatherDetails = async (locations: Location[]) => {
+  function formatDateWithTimezone(dt: number, timezone: number): string {
+    const date = new Date((dt + timezone) * 1000);
+    return date.toLocaleString('en-US', {weekday: 'long', day: '2-digit', month: 'long', year: 'numeric'});
+  }
+
+  const fetchWeatherDetails = async () => {
+    const locations: Favorite[] = getFavoriteLocations()
+
     if (!locations.length) {
       locationsWeatherData.value = [];
       return;
     }
 
     try {
-      const weatherPromises = locations.map(async (location: Location) => {
-        const {lat, lon, name} = location;
-        const response = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
-        );
-
-        if (!response.ok) {
-          throw new Error(`Error fetching weather for ${name}: ${response.statusText}`);
-        }
-
-        const data: WeatherApiResponse = await response.json();
-        console.log(data)
-        return {
-          id: data.id,
-          location_name: name,
-          weather_condition: data.weather[0]?.description || 'No description',
-          temperature: Math.round(data.main?.temp),
-          time: getLocalTime(data.dt, data.timezone),
-          coord: {
-            lon: Math.trunc(data.coord.lon),
-            lat: Math.trunc(data.coord.lat)
-          },
-          weather_icon_url: `https://openweathermap.org/img/wn/${data.weather[0]?.icon}@2x.png`
-        };
+      const weatherPromises = locations.map(async (location: Favorite): Promise<LocationWeather> => {
+        const {id} = location;
+        return getWeatherDataById(id)
       });
       locationsWeatherData.value = await Promise.all(weatherPromises);
     } catch (error) {
@@ -80,24 +66,17 @@ export const useWeather = defineStore('weather', () => {
     }
   };
 
-  async function getWeatherDataById(id: number): Promise<LocationWeather | undefined> {
+  async function getWeatherDataById(id: number): Promise<LocationWeather> {
     const cachedData = locationsWeatherData.value.find((data: any) => data.id === id);
 
-    // if (cachedData) {
-    //   return cachedData;
-    // }
+    if (cachedData) {
+      return cachedData;
+    }
 
     try {
       const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${apiKey}&units=metric`);
-      const data = await response.json();
 
-      // const {lat, lon} = data.coord;
-      //
-      // const forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,daily,alerts&appid=${apiKey}&units=metric`);
-      // const forecastData = await forecastResponse.json();
-      //
-      // const weeklyForecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`);
-      // const weeklyData = await weeklyForecastResponse.json();
+      const data: WeatherApiResponse = await response.json();
 
       const weatherData: DetailedLocationWeather = {
         id: data.id,
@@ -105,29 +84,16 @@ export const useWeather = defineStore('weather', () => {
         location_country: data.sys.country,
         weather_condition: data.weather[0]?.description || 'No description',
         temperature: Math.round(data.main?.temp),
-        time: new Date((data.dt + data.timezone) * 1000).toLocaleString(),
+        time: getLocalTime(data.dt, data.timezone),
+        datetime: formatDateWithTimezone(data.dt, data.timezone),
         coord: {
           lon: Math.trunc(data.coord.lon),
           lat: Math.trunc(data.coord.lat),
         },
         weather_icon_url: `https://openweathermap.org/img/wn/${data.weather[0]?.icon}@2x.png`,
-        // hourly_forecast: forecastData.hourly.map((hour: any) => ({
-        //   time: new Date((hour.dt + data.timezone) * 1000).toLocaleTimeString('en-US', {
-        //     hour: '2-digit',
-        //     minute: '2-digit'
-        //   }),
-        //   temperature: Math.round(hour.temp),
-        //   weather_condition: hour.weather[0]?.description || 'No description',
-        // })),
-        // weekly_forecast: weeklyData.daily.map((day: any) => ({
-        //   date: new Date((day.dt + data.timezone) * 1000).toLocaleDateString('en-US', {weekday: 'long'}),
-        //   temperature_min: Math.round(day.temp.min),
-        //   temperature_max: Math.round(day.temp.max),
-        //   weather_condition: day.weather[0]?.description || 'No description',
-        // })),
       };
 
-      // locationsWeatherData.value.push(weatherData);
+      locationsWeatherData.value.push(weatherData);
 
       return weatherData;
     } catch (error) {
@@ -140,11 +106,8 @@ export const useWeather = defineStore('weather', () => {
     return favorites ? JSON.parse(favorites) : [];
   }
 
-  const saveFavoriteLocation = (coord: { id: number, lat: number, lon: number }) => {
+  const saveFavoriteLocation = (coord: Favorite) => {
     const favorites = getFavoriteLocations();
-
-    console.log(favorites);
-    console.log(coord);
 
     if (!favorites.some((fav: any) => fav.id === coord.id)) {
       favorites.push(coord);

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {inject} from 'vue'
-import type {LocationWeather} from "~/types/weather";
+import type {DetailedLocationWeather} from "~/types/weather";
 
 const weather = useWeather()
 
-const cityDetails: Ref<LocationWeather> | undefined = inject('cityDetails')
+const cityDetails: Ref<DetailedLocationWeather> | undefined = inject('cityDetails')
 
 const getCitySavingDetails = () => {
   return {
@@ -30,7 +30,7 @@ const handleAction = () => {
   <header class="single-location-header">
     <div class="single-location-header__navigation">
       <Icon class="single-location-header__navigation__back-action" name="ep:arrow-left" @click="navigateTo('/')"/>
-      <span class="single-location-header__navigation__location">{{ cityDetails?.location_name }}</span>
+      <span class="single-location-header__navigation__location">{{ cityDetails?.location_name }}, {{ cityDetails?.location_country }}</span>
       <Icon
           @click="handleAction"
           class="single-location-header__navigation__save-action"
@@ -38,11 +38,12 @@ const handleAction = () => {
       />
     </div>
     <div class="single-location-header__date">
-      Monday, 20 December 2021
+      {{ cityDetails?.datetime }}
     </div>
     <div class="single-location-header__condition">
-      <div>24° C</div>
-      <div>Moderate Rain</div>
+      <img :src="cityDetails?.weather_icon_url" alt="weather-icon">
+      <div>{{ cityDetails?.temperature }}° C</div>
+      <div>{{ cityDetails?.weather_condition }}</div>
     </div>
     <div class="single-location-header__last-update">
       Last update at 11:00 AM
@@ -83,10 +84,11 @@ const handleAction = () => {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
 
     > div:last-child {
       font-weight: bold;
+      font-size: 1.26rem;
     }
   }
 
