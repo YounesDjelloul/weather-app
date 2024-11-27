@@ -1,11 +1,9 @@
 import {defineStore} from "pinia";
-import type {LocationWeather, Location, WeatherApiResponse} from "~/types/weather";
+import type {LocationWeather, Location, WeatherApiResponse, DetailedLocationWeather} from "~/types/weather";
+
 const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
 
 export const useWeather = defineStore('weather', () => {
-  let {$axios} = useNuxtApp()
-  const api = $axios()
-
   const suggestions = ref([]);
   const locationsWeatherData: Ref<LocationWeather[]> = ref([]);
 
@@ -37,6 +35,12 @@ export const useWeather = defineStore('weather', () => {
     }
   };
 
+  function getLocalTime(dt: number, timezone: number): string {
+    const localTime = new Date((dt + timezone) * 1000);
+    return localTime.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+  }
+
+
   const fetchWeatherDetails = async (locations: Location[]) => {
     if (!locations.length) {
       locationsWeatherData.value = [];
@@ -61,7 +65,7 @@ export const useWeather = defineStore('weather', () => {
           location_name: name,
           weather_condition: data.weather[0]?.description || 'No description',
           temperature: Math.round(data.main?.temp),
-          time: new Date(data.dt * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+          time: getLocalTime(data.dt, data.timezone),
           coord: {
             lon: Math.trunc(data.coord.lon),
             lat: Math.trunc(data.coord.lat)
@@ -76,10 +80,64 @@ export const useWeather = defineStore('weather', () => {
     }
   };
 
+  async function getWeatherDataById(id: number): Promise<LocationWeather | undefined> {
+    const cachedData = locationsWeatherData.value.find((data: any) => data.id === id);
+
+    // if (cachedData) {
+    //   return cachedData;
+    // }
+
+    try {
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${apiKey}&units=metric`);
+      const data = await response.json();
+
+      const { lat, lon } = data.coord;
+
+      const forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,daily,alerts&appid=${apiKey}&units=metric`);
+      const forecastData = await forecastResponse.json();
+
+      const weeklyForecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`);
+      const weeklyData = await weeklyForecastResponse.json();
+
+      const weatherData: DetailedLocationWeather = {
+        id: data.id,
+        location_name: data.name,
+        location_country: data.sys.country,
+        weather_condition: data.weather[0]?.description || 'No description',
+        temperature: Math.round(data.main?.temp),
+        time: new Date((data.dt + data.timezone) * 1000).toLocaleString(),
+        coord: {
+          lon: Math.trunc(data.coord.lon),
+          lat: Math.trunc(data.coord.lat),
+        },
+        weather_icon_url: `https://openweathermap.org/img/wn/${data.weather[0]?.icon}@2x.png`,
+        hourly_forecast: forecastData.hourly.map((hour: any) => ({
+          time: new Date((hour.dt + data.timezone) * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+          temperature: Math.round(hour.temp),
+          weather_condition: hour.weather[0]?.description || 'No description',
+        })),
+        weekly_forecast: weeklyData.daily.map((day: any) => ({
+          date: new Date((day.dt + data.timezone) * 1000).toLocaleDateString('en-US', { weekday: 'long' }),
+          temperature_min: Math.round(day.temp.min),
+          temperature_max: Math.round(day.temp.max),
+          weather_condition: day.weather[0]?.description || 'No description',
+        })),
+      };
+
+      // locationsWeatherData.value.push(weatherData);
+
+      return weatherData;
+    } catch (error) {
+      throw error
+    }
+  }
+
+
   return {
     suggestions,
     locationsWeatherData,
     fetchSuggestions,
-    fetchWeatherDetails
+    fetchWeatherDetails,
+    getWeatherDataById
   }
 })
