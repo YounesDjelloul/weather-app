@@ -1,46 +1,25 @@
 <script setup lang="ts">
-const isEditable = ref(false)
 
+const user = useUser()
 const avatarUpload = ref<HTMLInputElement | null>(null)
-const selectedAvatar = ref<File | null>(null)
-const avatarPreview = ref('')
 
 const triggerAvatarUpload = () => {
   avatarUpload.value?.click()
-}
-
-const handleAvatarChange = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  const avatar = target.files?.[0]
-
-  if (avatar) {
-    selectedAvatar.value = avatar
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      avatarPreview.value = reader.result as string;
-    };
-    reader.readAsDataURL(avatar);
-  }
-}
-
-const getProfilePictureUrl = () => {
-  return avatarPreview.value || '/images/avatar-sample.jpg'
 }
 </script>
 
 <template>
   <div class="profile-avatar">
-    <img :src="getProfilePictureUrl()" alt="current-avatar">
+    <img :src="user.getProfilePictureUrl()" alt="current-avatar">
     <input
-      v-if="isEditable"
+      v-if="user.isProfileFormEditable"
       type="file"
       ref="avatarUpload"
       style="display: none;"
       accept="image/*"
-      @change="handleAvatarChange"
+      @change="user.handleAvatarChange"
     >
-    <span v-if="isEditable" class="profile-avatar__edit-button" @click="triggerAvatarUpload">
+    <span v-if="user.isProfileFormEditable" class="profile-avatar__edit-button" @click="triggerAvatarUpload">
       <Icon name="fluent:edit-24-regular"/>
     </span>
   </div>

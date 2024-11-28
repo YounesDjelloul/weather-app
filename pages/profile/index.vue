@@ -3,11 +3,15 @@
 import ProfileHeader from "~/components/Organisms/ProfileHeader.vue";
 import ProfileInformation from "~/components/Organisms/ProfileInformation.vue";
 import ProfileForm from "~/components/Organisms/ProfileForm.vue";
+import PageLoader from "~/components/Molecules/PageLoader.vue";
+
+const user = useUser()
 </script>
 
 <template>
   <div class="profile">
     <ProfileHeader/>
+    <PageLoader v-if="user.isFormLoading"/>
     <ProfileInformation/>
     <ProfileForm/>
   </div>
@@ -23,5 +27,6 @@ import ProfileForm from "~/components/Organisms/ProfileForm.vue";
   height: 100vh;
   gap: 1.4rem;
   padding-bottom: 2.5rem;
+  position: relative;
 }
 </style>

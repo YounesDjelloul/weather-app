@@ -1,10 +1,16 @@
 <script setup lang="ts">
 
+const user = useUser()
 </script>
 
 <template>
   <div class="profile-action">
-    <button>Edit</button>
+    <button
+        type="submit"
+        @click="user.isProfileFormEditable ? user.handleProfileSubmission() : user.toggleProfileFormEditable()"
+    >
+      {{ user.actionButtonText }}
+    </button>
   </div>
 </template>
 

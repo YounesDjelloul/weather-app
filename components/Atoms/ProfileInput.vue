@@ -1,19 +1,45 @@
 <script setup lang="ts">
-const props = defineProps(['inputDetails'])
+import type {ProfileFormInput} from "~/types/user";
 
+const props = defineProps<{
+  inputDetails: ProfileFormInput;
+}>();
+const user = useUser()
 </script>
 
 <template>
   <div class="input-container">
     <label :for="inputDetails.id">{{ inputDetails.label }}</label>
-    <input disabled :type="inputDetails.type" :name="inputDetails.id" v-model="inputDetails.value"/>
+    <input
+        :disabled="!user.isProfileFormEditable"
+        :type="inputDetails.type"
+        :name="inputDetails.id"
+        v-model="user.formState[inputDetails.id]"
+        @keyup="user.validateField(inputDetails.id)"
+    />
+    <transition name="scale-fade">
+      <div
+          v-if="user.formErrors[inputDetails.id]"
+          class="input-container__error"
+      >
+        {{ user.formErrors[inputDetails.id] }}
+      </div>
+    </transition>
   </div>
 </template>
 
 <style scoped lang="scss">
 .input-container {
-  height: 50px;
   position: relative;
+
+  &__error {
+    color: #FF4C4C;
+    font-size: 12px;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    margin-bottom: 7px;
+  }
 
   label {
     position: absolute;

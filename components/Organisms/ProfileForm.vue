@@ -1,33 +1,14 @@
 <script setup lang="ts">
 import ProfileFormInput from "~/components/Molecules/ProfileFormInput.vue";
-import ProfileAction from "~/components/Organisms/ProfileAction.vue";
+import ProfileAction from "~/components/Molecules/ProfileAction.vue";
 
-const formInputs = ref([
-  {
-    id: 'fullname',
-    label: 'Full name',
-    type: 'text',
-    value: 'John joe',
-  },
-  {
-    id: 'email',
-    label: 'Email',
-    type: 'email',
-    value: 'younes@example.com',
-  },
-  {
-    id: 'Phone Number',
-    label: 'Phone Number',
-    type: 'text',
-    value: '1234567890',
-  }
-])
+const user = useUser()
 </script>
 
 <template>
   <div class="profile-form">
     <div class="profile-form__inputs-wrapper">
-      <ProfileFormInput v-for="input in formInputs" :input-details="input"/>
+      <ProfileFormInput v-for="input in user.formInputs" :input-details="input"/>
     </div>
     <ProfileAction/>
   </div>
@@ -44,6 +25,7 @@ const formInputs = ref([
 
   &__inputs-wrapper {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     gap: .8rem;

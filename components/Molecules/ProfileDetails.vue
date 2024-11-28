@@ -1,14 +1,14 @@
 <script setup lang="ts">
-
+const user = useUser()
 </script>
 
 <template>
   <div class="profile-details">
-    <div class="profile-details__fullname">Jane Doe</div>
+    <div class="profile-details__fullname">{{ user.userDetails.fullname }}</div>
     <div class="profile-details__contact">
-      <span class="profile-details__contact__email">jane@gmail.com</span>
+      <span class="profile-details__contact__email">{{ user.userDetails.email }}</span>
       <span class="profile-details__contact__separator">|</span>
-      <span class="profile-details__contact__phone">+01 234 567 89</span>
+      <span class="profile-details__contact__phone">{{ user.userDetails.phone }}</span>
     </div>
   </div>
 </template>
