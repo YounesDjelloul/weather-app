@@ -1,13 +1,13 @@
 <script setup lang="ts">
 
 import ProfileHeader from "~/components/Organisms/ProfileHeader.vue";
-import ProfileAvatar from "~/components/Molecules/ProfileAvatar.vue";
+import ProfileInformation from "~/components/Organisms/ProfileInformation.vue";
 </script>
 
 <template>
   <div class="profile">
     <ProfileHeader/>
-    <ProfileAvatar/>
+    <ProfileInformation/>
   </div>
 </template>
 
