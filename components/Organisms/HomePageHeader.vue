@@ -8,10 +8,12 @@ import HeaderSearchPlaceholder from "~/components/Molecules/HeaderSearchPlacehol
     <div class="header__navigation">
       <div class="header__navigation__title">Weather</div>
       <div class="header__navigation__profile">
-        <Icon name="solar:user-bold-duotone" />
+        <NuxtLink to="/profile">
+          <Icon name="solar:user-bold-duotone"/>
+        </NuxtLink>
       </div>
     </div>
-    <HeaderSearchPlaceholder class="header__search-placeholder" />
+    <HeaderSearchPlaceholder class="header__search-placeholder"/>
   </header>
 </template>
 
