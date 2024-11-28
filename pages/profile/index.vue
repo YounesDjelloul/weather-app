@@ -2,12 +2,14 @@
 
 import ProfileHeader from "~/components/Organisms/ProfileHeader.vue";
 import ProfileInformation from "~/components/Organisms/ProfileInformation.vue";
+import ProfileForm from "~/components/Organisms/ProfileForm.vue";
 </script>
 
 <template>
   <div class="profile">
     <ProfileHeader/>
     <ProfileInformation/>
+    <ProfileForm/>
   </div>
 </template>
 
