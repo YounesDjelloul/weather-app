@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ProfileFormInput from "~/components/Molecules/ProfileFormInput.vue";
+import ProfileAction from "~/components/Organisms/ProfileAction.vue";
 
 const formInputs = ref([
   {
@@ -25,17 +26,27 @@ const formInputs = ref([
 
 <template>
   <div class="profile-form">
-    <ProfileFormInput v-for="input in formInputs" :input-details="input"/>
+    <div class="profile-form__inputs-wrapper">
+      <ProfileFormInput v-for="input in formInputs" :input-details="input"/>
+    </div>
+    <ProfileAction/>
   </div>
 </template>
 
 <style scoped lang="scss">
 .profile-form {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: .8rem;
+  justify-content: space-between;
+
+  &__inputs-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+  }
 }
 </style>
