@@ -28,14 +28,13 @@ export const useFavorites = () => {
         return favorites.value.some((fav) => fav.id === id);
     };
 
-    onMounted(() => {
-        getFavoriteLocations();
-    });
+    onMounted(() => getFavoriteLocations())
 
     return {
         favorites,
         saveFavoriteLocation,
         deleteFavoriteLocation,
         isLocationInFavorite,
+        getFavoriteLocations
     };
 };

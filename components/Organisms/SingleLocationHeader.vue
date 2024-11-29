@@ -4,6 +4,7 @@ import type {DetailedLocationWeather, Favorite} from "~/types/weather";
 import {useFavorites} from "~/composables/useFavorites";
 
 const favorites = useFavorites()
+favorites.getFavoriteLocations();
 
 const cityDetails: Ref<DetailedLocationWeather> = inject('cityDetails')
 
@@ -38,11 +39,14 @@ const handleAction = () => {
       <span class="single-location-header__navigation__location">{{
           cityDetails?.location_name
         }}, {{ cityDetails?.location_country }}</span>
-      <Icon
-          @click="handleAction"
-          class="single-location-header__navigation__save-action"
-          :name="actionIconToShow"
-      />
+      <transition name="icon-flip">
+        <Icon
+            :key="actionIconToShow"
+            @click="handleAction"
+            class="single-location-header__navigation__save-action"
+            :name="actionIconToShow"
+        />
+      </transition>
     </div>
     <div class="single-location-header__date">
       {{ cityDetails?.datetime }}
@@ -59,6 +63,30 @@ const handleAction = () => {
 </template>
 
 <style scoped lang="scss">
+.icon-flip-enter-active {
+  transition: transform 0.9s ease, opacity 0.4s ease;
+}
+
+.icon-flip-leave-active {
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+.icon-flip-enter-from {
+  opacity: 0;
+  transform: rotateY(180deg);
+}
+
+.icon-flip-leave-to {
+  opacity: 0;
+  transform: rotateY(-180deg);
+}
+
+.icon-flip-enter-to,
+.icon-flip-leave-from {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
 .single-location-header {
   display: flex;
   flex-direction: column;
