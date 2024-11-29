@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import {inject} from 'vue'
 import type {DetailedLocationWeather, Favorite} from "~/types/weather";
-import {useFavorites} from "~/composables/useFavorites";
 
 const favorites = useFavorites()
-favorites.getFavoriteLocations();
-
 const cityDetails: Ref<DetailedLocationWeather> = inject('cityDetails')
 
 const getCitySavingDetails = (): Favorite => {
@@ -17,7 +14,7 @@ const getCitySavingDetails = (): Favorite => {
 }
 
 const actionIconToShow = computed(() => {
-  return favorites.favorites.value.some((fav) => fav.id === cityDetails?.value.id)
+  return favorites.favorites.some((fav) => fav.id === cityDetails?.value.id)
       ? 'mynaui:trash-solid'
       : 'mingcute:add-line'
 })

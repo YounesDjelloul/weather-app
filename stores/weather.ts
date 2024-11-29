@@ -28,7 +28,6 @@ export const useWeather = defineStore('weather', () => {
             );
 
             const data = await response.json();
-            console.log(data);
             suggestions.value = data.map((location: any) => ({
                 id: location.id,
                 location_name: location.name,
@@ -41,7 +40,6 @@ export const useWeather = defineStore('weather', () => {
             suggestions.value = [];
         } finally {
             isSuggestionsLoading.value = false;
-            console.log(suggestions.value);
         }
     };
 
@@ -56,7 +54,8 @@ export const useWeather = defineStore('weather', () => {
     }
 
     const fetchWeatherDetails = async () => {
-        const locations = favorites.favorites.value;
+        const locations: Favorite[] = favorites.favorites
+        console.log(locations)
 
         if (!locations.length) {
             locationsWeatherData.value = [];
@@ -74,7 +73,7 @@ export const useWeather = defineStore('weather', () => {
             console.error(error);
             locationsWeatherData.value = [];
         }
-    };
+    }
 
     async function getWeatherDataByCords(lat: number, lon: number): Promise<DetailedLocationWeather> {
         const cachedData = locationsWeatherData.value.find(
@@ -152,12 +151,16 @@ export const useWeather = defineStore('weather', () => {
         }
     }
 
+    watch(favorites.favorites, async () => {
+        await fetchWeatherDetails()
+    }, { immediate: true });
+
     return {
         suggestions,
         locationsWeatherData,
         isSuggestionsLoading,
         fetchSuggestions,
         fetchWeatherDetails,
-        getWeatherDataByCords,
+        getWeatherDataByCords
     }
 })

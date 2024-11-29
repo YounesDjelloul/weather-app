@@ -2,14 +2,36 @@
 import HomePageHeader from "~/components/Organisms/HomePageHeader.vue";
 import HomePageCities from "~/components/Organisms/HomePageCities.vue";
 import PageLoader from "~/components/Molecules/PageLoader.vue";
+import type {Favorite} from "~/types/weather";
 
 const weather = useWeather()
+const favorites = useFavorites()
+
+const getUserLocation = async () => {
+  if (!navigator.geolocation) {
+    throw new Error("Geolocation is not supported")
+  }
+
+  navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const details: Favorite = {
+          id: `${position.coords.latitude}-${position.coords.longitude}`,
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+        }
+        favorites.saveFavoriteLocation(details)
+      },
+      (err) => {
+        throw new Error("Unable to retrieve Location");
+      }
+  );
+}
 
 const isLoading = ref(true)
 
 onMounted(async () => {
   try {
-    await weather.fetchWeatherDetails()
+    await getUserLocation()
   } catch (e) {
     console.log(e)
   } finally {
