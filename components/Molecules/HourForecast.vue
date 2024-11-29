@@ -15,7 +15,7 @@ const props = defineProps<{
       {{ forecastDetails.temperature }}°
     </div>
     <div class="hour-forecast__time">
-      {{ forecastDetails.time }} PM
+      {{ forecastDetails.time }}
     </div>
   </div>
 </template>
