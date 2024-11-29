@@ -8,8 +8,23 @@ export interface SearchResult {
     location_country: string
 }
 
+export interface DailyForecast {
+    date: string
+    temperature_min: number
+    temperature_max: number
+    weather_condition: string
+    weather_icon_url: string
+}
+
+export interface HourlyForecast {
+    time: string
+    temperature: number
+    weather_condition: string
+    weather_icon_url: string
+}
+
 export interface DetailedLocationWeather {
-    id: number
+    id: number | string
     location_name: string
     location_country: string
     weather_condition: string
@@ -21,17 +36,8 @@ export interface DetailedLocationWeather {
         lat: number
     },
     weather_icon_url: string
-    hourly_forecast?: {
-        time: string
-        temperature: number
-        weather_condition: string
-    }
-    weekly_forecast?: {
-        date: string
-        temperature_min: number
-        temperature_max: number
-        weather_condition: string
-    }
+    hourly_forecast?: HourlyForecast[]
+    daily_forecast?: DailyForecast[]
 }
 
 export interface WeatherApiResponse {
