@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  forecastTemperature: number
+  forecastTemperature: string
 }>()
 </script>
 

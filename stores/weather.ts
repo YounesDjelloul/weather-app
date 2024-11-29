@@ -55,7 +55,6 @@ export const useWeather = defineStore('weather', () => {
         return date.toLocaleString('en-US', {weekday: 'long', day: '2-digit', month: 'long', year: 'numeric'});
     }
 
-
     const fetchWeatherDetails = async () => {
         const locations = getFavoriteLocations();
 
@@ -79,10 +78,11 @@ export const useWeather = defineStore('weather', () => {
 
     async function getWeatherDataByCords(lat: number, lon: number): Promise<DetailedLocationWeather> {
         const cachedData = locationsWeatherData.value.find(
-            (data: any) => data.coord.lat === lat && data.coord.lon === lon
+            (data: any) => data.id === `${lat}-${lon}`
         );
 
         if (cachedData) {
+            console.log(cachedData);
             return cachedData;
         }
 
