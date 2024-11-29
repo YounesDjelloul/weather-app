@@ -15,7 +15,11 @@ const getCitySavingDetails = (): Favorite => {
   }
 }
 
-const actionIconToShow = computed(() => favorites.favorites.value.some((fav) => fav.id === cityDetails?.value.id) ? 'mynaui:trash-solid' : 'mingcute:add-line')
+const actionIconToShow = computed(() => {
+  return favorites.favorites.value.some((fav) => fav.id === cityDetails?.value.id)
+      ? 'mynaui:trash-solid'
+      : 'mingcute:add-line'
+})
 
 const handleAction = () => {
   if (favorites.isLocationInFavorite(cityDetails?.value.id)) {
@@ -31,7 +35,9 @@ const handleAction = () => {
   <header class="single-location-header">
     <div class="single-location-header__navigation">
       <Icon class="single-location-header__navigation__back-action" name="ep:arrow-left" @click="navigateTo('/')"/>
-      <span class="single-location-header__navigation__location">{{ cityDetails?.location_name }}, {{ cityDetails?.location_country }}</span>
+      <span class="single-location-header__navigation__location">{{
+          cityDetails?.location_name
+        }}, {{ cityDetails?.location_country }}</span>
       <Icon
           @click="handleAction"
           class="single-location-header__navigation__save-action"
