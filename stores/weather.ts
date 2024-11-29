@@ -55,7 +55,6 @@ export const useWeather = defineStore('weather', () => {
 
     const fetchWeatherDetails = async () => {
         const locations: Favorite[] = favorites.favorites
-        console.log(locations)
 
         if (!locations.length) {
             locationsWeatherData.value = [];
@@ -153,7 +152,7 @@ export const useWeather = defineStore('weather', () => {
 
     watch(() => [...favorites.favorites], async () => {
         await fetchWeatherDetails();
-    }, { immediate: true });
+    }, {immediate: true});
 
     return {
         suggestions,
