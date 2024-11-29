@@ -1,28 +1,29 @@
 <script setup lang="ts">
 import {inject} from 'vue'
-import type {DetailedLocationWeather} from "~/types/weather";
+import type {DetailedLocationWeather, Favorite} from "~/types/weather";
+import {useFavorites} from "~/composables/useFavorites";
 
-const weather = useWeather()
+const favorites = useFavorites()
 
-const cityDetails: Ref<DetailedLocationWeather> | undefined = inject('cityDetails')
+const cityDetails: Ref<DetailedLocationWeather> = inject('cityDetails')
 
-const getCitySavingDetails = () => {
+const getCitySavingDetails = (): Favorite => {
   return {
-    id: cityDetails?.value.id,
-    lat: cityDetails?.value.coord.lat,
-    lon: cityDetails?.value.coord.lon
+    id: cityDetails.value.id,
+    lat: cityDetails.value.coord.lat,
+    lon: cityDetails.value.coord.lon
   }
 }
 
-const actionIconToShow = computed(() => weather.isLocationInFavorite(cityDetails?.value.id) ? 'mynaui:trash-solid' : 'mingcute:add-line')
+const actionIconToShow = computed(() => favorites.favorites.value.some((fav) => fav.id === cityDetails?.value.id) ? 'mynaui:trash-solid' : 'mingcute:add-line')
 
 const handleAction = () => {
-  if (weather.isLocationInFavorite(cityDetails?.value.id)) {
-    weather.deleteFavoriteLocation(cityDetails?.value.id)
+  if (favorites.isLocationInFavorite(cityDetails?.value.id)) {
+    favorites.deleteFavoriteLocation(cityDetails?.value.id)
     return
   }
 
-  weather.saveFavoriteLocation(getCitySavingDetails())
+  favorites.saveFavoriteLocation(getCitySavingDetails())
 }
 </script>
 

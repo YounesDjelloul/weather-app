@@ -1,4 +1,4 @@
-export interface Favorite { id: number, lat: number, lon: number }
+export interface Favorite { id: number | string, lat: number, lon: number }
 
 export interface SearchResult {
     id: number

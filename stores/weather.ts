@@ -10,7 +10,7 @@ import type {
 const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
 
 export const useWeather = defineStore('weather', () => {
-    const FAVORITES_KEY = 'favorite_locations';
+    const favorites = useFavorites();
     const suggestions: Ref<SearchResult[]> = ref([]);
     const locationsWeatherData: Ref<DetailedLocationWeather[]> = ref([]);
     const isSuggestionsLoading: Ref<boolean> = ref(false);
@@ -56,7 +56,7 @@ export const useWeather = defineStore('weather', () => {
     }
 
     const fetchWeatherDetails = async () => {
-        const locations = getFavoriteLocations();
+        const locations = favorites.favorites.value;
 
         if (!locations.length) {
             locationsWeatherData.value = [];
@@ -152,34 +152,6 @@ export const useWeather = defineStore('weather', () => {
         }
     }
 
-    const getFavoriteLocations = () => {
-        const favorites = localStorage.getItem(FAVORITES_KEY);
-        return favorites ? JSON.parse(favorites) : [];
-    }
-
-    const saveFavoriteLocation = (coord: Favorite) => {
-        const favorites = getFavoriteLocations();
-
-        if (!favorites.some((fav: any) => fav.id === coord.id)) {
-            favorites.push(coord);
-
-            localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
-        }
-    }
-
-    const deleteFavoriteLocation = (id: number) => {
-        const favorites = getFavoriteLocations();
-        const updatedFavorites = favorites.filter((fav: any) => fav.id !== id);
-        localStorage.setItem(FAVORITES_KEY, JSON.stringify(updatedFavorites));
-    }
-
-    const isLocationInFavorite = (id: number) => {
-        const favorites = getFavoriteLocations();
-        const favorite = favorites.filter((fav: any) => fav.id === id);
-
-        return favorite.length > 0;
-    }
-
     return {
         suggestions,
         locationsWeatherData,
@@ -187,9 +159,5 @@ export const useWeather = defineStore('weather', () => {
         fetchSuggestions,
         fetchWeatherDetails,
         getWeatherDataByCords,
-        getFavoriteLocations,
-        saveFavoriteLocation,
-        deleteFavoriteLocation,
-        isLocationInFavorite
     }
 })
