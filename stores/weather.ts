@@ -10,7 +10,7 @@ import type {
 const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
 
 export const useWeather = defineStore('weather', () => {
-    const favorites = useFavorites();
+    const favorites = useFavorites()
     const suggestions: Ref<SearchResult[]> = ref([]);
     const locationsWeatherData: Ref<DetailedLocationWeather[]> = ref([]);
     const isSuggestionsLoading: Ref<boolean> = ref(false);
@@ -151,8 +151,8 @@ export const useWeather = defineStore('weather', () => {
         }
     }
 
-    watch(favorites.favorites, async () => {
-        await fetchWeatherDetails()
+    watch(() => [...favorites.favorites], async () => {
+        await fetchWeatherDetails();
     }, { immediate: true });
 
     return {
