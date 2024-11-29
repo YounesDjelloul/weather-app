@@ -20,9 +20,9 @@ onMounted(async () => {
 
 <template>
   <div class="home">
-    <PageLoader v-if="isLoading"/>
     <HomePageHeader/>
-    <HomePageCities v-if="!isLoading"/>
+    <PageLoader v-if="isLoading"/>
+    <HomePageCities v-else/>
   </div>
 </template>
 

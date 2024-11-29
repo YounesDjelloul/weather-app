@@ -1,18 +1,21 @@
 <script setup lang="ts">
+import type {HourlyForecast} from "~/types/weather";
 
+const props = defineProps<{
+  forecastDetails: HourlyForecast
+}>()
 </script>
 
 <template>
   <div class="hour-forecast">
     <div class="hour-forecast__image">
-<!--      <img src="" alt="Forecast Image" />-->
-      <Icon name="material-symbols:rainy-outline"/>
+      <img :src="forecastDetails.weather_icon_url" alt="Forecast Image" />
     </div>
     <div class="hour-forecast__temperature">
-      24°
+      {{ forecastDetails.temperature }}°
     </div>
     <div class="hour-forecast__time">
-      12:00 PM
+      {{ forecastDetails.time }} PM
     </div>
   </div>
 </template>
@@ -25,12 +28,19 @@
   align-items: center;
   height: 107px;
   width: 78px;
+  min-width: 78px;
   border-radius: 4px;
   background-color: #f5f5f5;
-  padding: 16px 8px 8px;
+  padding: 8px;
 
   &__image {
-    font-size: 24px;
+    width: 45px;
+    height: 45px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   &__temperature {

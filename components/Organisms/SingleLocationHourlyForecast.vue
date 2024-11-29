@@ -1,13 +1,20 @@
 <script setup lang="ts">
-
 import HourForecast from "~/components/Molecules/HourForecast.vue";
+import type {DetailedLocationWeather} from "~/types/weather";
+import {inject} from "vue";
+
+const cityDetails: Ref<DetailedLocationWeather> | undefined = inject('cityDetails')
 </script>
 
 <template>
   <div class="hourly-forecast">
     <div class="hourly-forecast__title">Hourly Forecast</div>
     <div class="hourly-forecast__forecasts">
-      <HourForecast v-for="i in 3" :key="i" />
+      <HourForecast
+          v-for="hourlyForecast in cityDetails?.hourly_forecast"
+          :key="hourlyForecast.time"
+          :forecast-details="hourlyForecast"
+      />
     </div>
   </div>
 </template>
