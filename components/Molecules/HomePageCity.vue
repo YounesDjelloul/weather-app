@@ -16,8 +16,8 @@ const props = defineProps(['cityDetails'])
     <div class="city__bottom">
       <div class="city__bottom__condition">{{ cityDetails.weather_condition }}</div>
       <div class="city__bottom__cords">
-        <span class="bottom__cords_lon">H:{{ cityDetails.coord.lon }}°</span>
-        <span class="bottom__cords_lat">L:{{ cityDetails.coord.lat }}°</span>
+        <span class="bottom__cords_lon">H:{{ cityDetails.coord.lon.toFixed(0) }}°</span>
+        <span class="bottom__cords_lat">L:{{ cityDetails.coord.lat.toFixed(0) }}°</span>
       </div>
     </div>
   </div>
