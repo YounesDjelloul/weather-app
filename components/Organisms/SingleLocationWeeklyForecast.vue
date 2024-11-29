@@ -1,13 +1,22 @@
 <script setup lang="ts">
 
 import WeekForecast from "~/components/Molecules/WeekForecast.vue";
+import type {DetailedLocationWeather} from "~/types/weather";
+import {inject} from "vue";
+
+const cityDetails: Ref<DetailedLocationWeather> | undefined = inject('cityDetails')
+
 </script>
 
 <template>
   <div class="weekly-forecast">
     <div class="weekly-forecast__title">Weekly Forecast</div>
     <div class="weekly-forecast__forecasts">
-      <WeekForecast v-for="i in 5" :key="i" />
+      <WeekForecast
+          v-for="dailyForecast in cityDetails?.daily_forecast"
+          :key="dailyForecast.day"
+          :forecast-details="dailyForecast"
+      />
     </div>
   </div>
 </template>

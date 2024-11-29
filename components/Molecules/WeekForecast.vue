@@ -2,12 +2,21 @@
 
 import WeekForecastTitle from "~/components/Atoms/WeekForecastTitle.vue";
 import WeekForecastTemperature from "~/components/Atoms/WeekForecastTemperature.vue";
+import type {DailyForecast} from "~/types/weather";
+
+const props = defineProps<{
+  forecastDetails: DailyForecast
+}>()
 </script>
 
 <template>
   <div class="week-forecast">
-    <WeekForecastTitle/>
-    <WeekForecastTemperature />
+    <WeekForecastTitle
+      :forecast-condition="forecastDetails.weather_condition"
+      :forecast-day="forecastDetails.day"
+      :weather-icon-url="forecastDetails.weather_icon_url"
+    />
+    <WeekForecastTemperature :forecast-temperature="forecastDetails.temperature" />
   </div>
 </template>
 

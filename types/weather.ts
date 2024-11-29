@@ -9,9 +9,8 @@ export interface SearchResult {
 }
 
 export interface DailyForecast {
-    date: string
-    temperature_min: number
-    temperature_max: number
+    day: string
+    temperature: number
     weather_condition: string
     weather_icon_url: string
 }

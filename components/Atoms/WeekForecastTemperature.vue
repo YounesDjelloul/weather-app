@@ -1,10 +1,12 @@
 <script setup lang="ts">
-
+const props = defineProps<{
+  forecastTemperature: number
+}>()
 </script>
 
 <template>
   <div class="temperature">
-    <span class="temperature__text">30° C</span>
+    <span class="temperature__text">{{ forecastTemperature }}° C</span>
     <span class="temperature__action">
       <Icon name="eva:arrow-right-fill"/>
     </span>

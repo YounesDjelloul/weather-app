@@ -1,16 +1,19 @@
 <script setup lang="ts">
-
+const props = defineProps<{
+  weatherIconUrl: string
+  forecastDay: string
+  forecastCondition: string
+}>()
 </script>
 
 <template>
   <div class="title">
     <div class="title__image">
-<!--      <img src="" alt="title image"/>-->
-      <Icon name="material-symbols:rainy-outline"/>
+      <img :src="weatherIconUrl" alt="title image"/>
     </div>
     <div class="title__details">
-      <div class="title__details__day">Monday</div>
-      <div class="title__details__condition">Sunny</div>
+      <div class="title__details__day">{{ forecastDay }}</div>
+      <div class="title__details__condition">{{ forecastCondition }}</div>
     </div>
   </div>
 </template>
@@ -22,14 +25,20 @@
   gap: 1rem;
   height: 70%;
 
-  .title__image {
-    font-size: 24px;
+  &__image {
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
-  .title__details {
+  &__details {
     display: flex;
     flex-direction: column;
     font-size: .85rem;
