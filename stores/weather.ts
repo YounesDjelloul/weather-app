@@ -139,7 +139,7 @@ export const useWeather = defineStore('weather', () => {
                     lat,
                 },
                 weather_icon_url: `https://openweathermap.org/img/wn/${data.list[0]?.weather[0]?.icon}@2x.png`,
-                hourly_forecast: hourlyForecast,
+                hourly_forecast: hourlyForecast.slice(0, 5),
                 daily_forecast: dailyForecastArray,
             };
 
