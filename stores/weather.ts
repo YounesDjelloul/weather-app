@@ -82,7 +82,6 @@ export const useWeather = defineStore('weather', () => {
         );
 
         if (cachedData) {
-            console.log(cachedData);
             return cachedData;
         }
 
