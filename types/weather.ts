@@ -10,7 +10,7 @@ export interface SearchResult {
 
 export interface DailyForecast {
     day: string
-    temperature: number
+    temperature: string
     weather_condition: string
     weather_icon_url: string
 }
