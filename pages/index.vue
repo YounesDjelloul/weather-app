@@ -46,10 +46,11 @@ onMounted(async () => {
     <HomePageHeader/>
     <PageLoader v-if="isLoading"/>
     <HomePageCities v-else/>
+    <div class="home__no-cities" v-if="!weather.locationsWeatherData.length">No cities in favorite.</div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .home {
   width: 100%;
   height: 100vh;
@@ -62,5 +63,10 @@ onMounted(async () => {
   padding: 20px;
   margin-top: 30px;
   position: relative;
+
+  &__no-cities {
+    font-weight: 550;
+    font-size: 1rem;
+  }
 }
 </style>
