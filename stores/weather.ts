@@ -120,7 +120,7 @@ export const useWeather = defineStore('weather', () => {
                 if (!acc[date]) {
                     acc[date] = {
                         day: date,
-                        temperatures: [item.main.temp], // Collect all temperatures
+                        temperatures: [item.main.temp],
                         weather_condition: item.weather[0]?.description || "No description",
                         weather_icon_url: `https://openweathermap.org/img/wn/${item.weather[0]?.icon}@2x.png`,
                     };
