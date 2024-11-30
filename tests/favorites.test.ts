@@ -1,6 +1,6 @@
 import {setActivePinia, createPinia} from 'pinia'
 import {beforeEach, describe, expect, it} from 'vitest'
-import {useFavorites} from '../stores/favorites'
+import {useFavorites} from '~/stores/favorites'
 import type {Favorite} from "~/types/weather";
 
 describe('Favorites Store', () => {
