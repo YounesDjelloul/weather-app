@@ -10,9 +10,7 @@ export const useFavorites = defineStore('favorites', () => {
     };
 
     const saveFavoriteLocation = (coord: Favorite) => {
-        if (coord.isCurrent == null) {
-            coord.isCurrent = false;
-        }
+        coord.isCurrent ??= false;
 
         if (!isLocationInFavorite(coord.id)) {
             favorites.value.push(coord);
