@@ -8,6 +8,7 @@ import type {
 } from "~/types/weather";
 import {useErrorHandler} from "~/stores/errorHandler";
 
+// Hard coded API KEY for development purposes
 const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
 
 export const useWeather = defineStore('weather', () => {
