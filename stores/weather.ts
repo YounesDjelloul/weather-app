@@ -142,8 +142,9 @@ export const useWeather = defineStore('weather', () => {
             };
 
             if (isCurrentLocation) {
+                const currentLocationPlaceholder = 'My Location'
                 weatherData.time = weatherData.location_name
-                weatherData.location_name = 'My Location';
+                weatherData.location_name = currentLocationPlaceholder;
             }
 
             locationsWeatherData.value.push(weatherData);
