@@ -63,8 +63,8 @@ export const useWeather = defineStore('weather', () => {
 
         try {
             const weatherPromises = locations.map(async (location: Favorite): Promise<DetailedLocationWeather> => {
-                const {lat, lon} = location;
-                return getWeatherDataByCords(lat, lon);
+                const {lat, lon, isCurrent} = location;
+                return getWeatherDataByCords(lat, lon, isCurrent);
             });
 
             locationsWeatherData.value = await Promise.all(weatherPromises);
@@ -74,7 +74,7 @@ export const useWeather = defineStore('weather', () => {
         }
     }
 
-    async function getWeatherDataByCords(lat: number, lon: number): Promise<DetailedLocationWeather> {
+    async function getWeatherDataByCords(lat: number, lon: number, isCurrentLocation: boolean | undefined): Promise<DetailedLocationWeather> {
         const cachedData = locationsWeatherData.value.find(
             (data: any) => data.id === `${lat}-${lon}`
         );
@@ -140,6 +140,11 @@ export const useWeather = defineStore('weather', () => {
                 hourly_forecast: hourlyForecast.slice(0, 5),
                 daily_forecast: dailyForecastArray,
             };
+
+            if (isCurrentLocation) {
+                weatherData.time = weatherData.location_name
+                weatherData.location_name = 'My Location';
+            }
 
             locationsWeatherData.value.push(weatherData);
 
