@@ -9,6 +9,7 @@
 
 <style lang="scss">
 @import '@coreui/coreui/dist/css/coreui.min.css';
+@import 'vue3-toastify/dist/index.css';
 
 * {
   box-sizing: border-box;

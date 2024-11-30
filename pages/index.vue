@@ -46,7 +46,7 @@ onMounted(async () => {
     <HomePageHeader/>
     <PageLoader v-if="isLoading"/>
     <HomePageCities v-else/>
-    <div class="home__no-cities" v-if="!weather.locationsWeatherData.length">No cities in favorite.</div>
+    <div class="home__no-cities" v-if="!weather.locationsWeatherData.length">No cities found.</div>
   </div>
 </template>
 

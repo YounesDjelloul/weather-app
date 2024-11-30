@@ -6,11 +6,14 @@ import type {
     DailyForecast,
     HourlyForecast
 } from "~/types/weather";
+import {useErrorHandler} from "~/stores/errorHandler";
 
 const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
 
 export const useWeather = defineStore('weather', () => {
     const favorites = useFavorites()
+    const errorHandler = useErrorHandler();
+
     const suggestions: Ref<SearchResult[]> = ref([]);
     const locationsWeatherData: Ref<DetailedLocationWeather[]> = ref([]);
     const isSuggestionsLoading: Ref<boolean> = ref(false);
@@ -69,12 +72,11 @@ export const useWeather = defineStore('weather', () => {
 
             locationsWeatherData.value = await Promise.all(weatherPromises);
         } catch (error) {
-            console.error(error);
             locationsWeatherData.value = [];
         }
     }
 
-    async function getWeatherDataByCords(lat: number, lon: number, isCurrentLocation: boolean | undefined): Promise<DetailedLocationWeather> {
+    const getWeatherDataByCords = async (lat: number, lon: number, isCurrentLocation?: boolean): Promise<DetailedLocationWeather> => {
         const cachedData = locationsWeatherData.value.find(
             (data: any) => data.id === `${lat}-${lon}`
         );
@@ -151,7 +153,11 @@ export const useWeather = defineStore('weather', () => {
 
             return weatherData;
         } catch (error) {
-            console.error("Error fetching weather data:", error);
+            console.log(error);
+            errorHandler.handleError(error, {
+                customMessage: 'Failed to fetch data',
+                type: 'error'
+            })
             throw error;
         }
     }
