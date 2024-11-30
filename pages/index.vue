@@ -20,7 +20,9 @@ const getUserLocation = async () => {
           lon: position.coords.longitude,
           isCurrent: true
         }
-        favorites.saveFavoriteLocation(details)
+        if (!favorites.currentLocationDeleted) {
+          favorites.saveFavoriteLocation(details)
+        }
       },
       (err) => {
         throw new Error("Unable to retrieve Location");

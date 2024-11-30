@@ -4,6 +4,7 @@ import {defineStore} from "pinia";
 
 export const useFavorites = defineStore('favorites', () => {
     const favorites: Ref<Favorite[]> = ref([])
+    const currentLocationDeleted = ref(false)
 
     const getFavoriteLocations = () => {
         return favorites.value;
@@ -18,6 +19,11 @@ export const useFavorites = defineStore('favorites', () => {
     };
 
     const deleteFavoriteLocation = (id: number | string) => {
+        const location = favorites.value.filter((fav) => fav.id == id)[0]
+        if (location.isCurrent) {
+            currentLocationDeleted.value = true;
+        }
+
         favorites.value = favorites.value.filter((fav) => fav.id !== id);
     };
 
@@ -27,13 +33,13 @@ export const useFavorites = defineStore('favorites', () => {
 
     return {
         favorites,
+        currentLocationDeleted,
         saveFavoriteLocation,
         deleteFavoriteLocation,
-        isLocationInFavorite,
         getFavoriteLocations
     };
 }, {
-    persist: {
+    persist: process.env.NODE_ENV !== 'test' ? {
         storage: piniaPluginPersistedstate.localStorage(),
-    },
+    } : false
 })
