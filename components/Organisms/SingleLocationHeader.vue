@@ -54,7 +54,7 @@ const handleAction = () => {
       <div>{{ cityDetails?.weather_condition }}</div>
     </div>
     <div class="single-location-header__last-update">
-      Last update at 11:00 AM
+      Last update at {{ cityDetails.last_updated }}
     </div>
   </header>
 </template>

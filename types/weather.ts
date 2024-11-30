@@ -44,6 +44,7 @@ export interface DetailedLocationWeather {
     daily_forecast?: DailyForecast[],
     overview_location_name: string
     overview_time: string
+    last_updated: string
 }
 
 export interface WeatherApiResponse {

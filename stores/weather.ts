@@ -127,6 +127,12 @@ export const useWeather = defineStore('weather', () => {
                 ).toFixed(0),
             }));
 
+            const lastUpdatedTime = new Date().toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+            }).replace(/:\d{2}/, ":00");
+
             const weatherData: DetailedLocationWeather = {
                 id: `${lat}-${lon}`,
                 location_name: data.city.name,
@@ -143,7 +149,8 @@ export const useWeather = defineStore('weather', () => {
                 hourly_forecast: hourlyForecast.slice(0, 5),
                 daily_forecast: dailyForecastArray,
                 overview_location_name: isCurrentLocation ? 'My Location' : data.city.name,
-                overview_time: isCurrentLocation ? data.city.name : getLocalTime(data.list[0]?.dt, data.city.timezone)
+                overview_time: isCurrentLocation ? data.city.name : getLocalTime(data.list[0]?.dt, data.city.timezone),
+                last_updated: lastUpdatedTime,
             };
 
             locationsWeatherData.value.push(weatherData);
