@@ -2,8 +2,6 @@ import {ref} from "vue";
 import type {Favorite} from "~/types/weather";
 import {defineStore} from "pinia";
 
-const FAVORITES_KEY = 'favorite_locations';
-
 export const useFavorites = defineStore('favorites', () => {
     const favorites: Ref<Favorite[]> = ref([])
 
@@ -12,6 +10,10 @@ export const useFavorites = defineStore('favorites', () => {
     };
 
     const saveFavoriteLocation = (coord: Favorite) => {
+        if (coord.isCurrent == null) {
+            coord.isCurrent = false;
+        }
+
         if (!isLocationInFavorite(coord.id)) {
             favorites.value.push(coord);
         }

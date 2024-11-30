@@ -18,6 +18,7 @@ const getUserLocation = async () => {
           id: `${position.coords.latitude}-${position.coords.longitude}`,
           lat: position.coords.latitude,
           lon: position.coords.longitude,
+          isCurrent: true
         }
         favorites.saveFavoriteLocation(details)
       },
