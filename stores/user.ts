@@ -30,8 +30,8 @@ export const useUser = defineStore('user', () => {
     const formSchema = z.object({
         fullname: z
             .string()
-            .min(3, {message: "full_name must be at least 3 characters long"})
-            .max(50, {message: "full_name must be 50 characters or less"}),
+            .min(3, {message: "Full Name must be at least 3 characters long"})
+            .max(50, {message: "Full Name must be 50 characters or less"}),
         email: z
             .string()
             .min(1, {message: "Email is required"})
