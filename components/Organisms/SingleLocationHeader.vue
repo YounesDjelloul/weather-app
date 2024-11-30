@@ -93,7 +93,7 @@ const handleAction = () => {
   height: 370px;
   width: 100%;
   background: linear-gradient(to bottom right, #4F80FA, #3764D7, #335FD1);
-  padding: 1.2rem 1.5rem;
+  padding: 2rem 1.5rem 1rem;
   color: #FFF;
 
   &__navigation {
