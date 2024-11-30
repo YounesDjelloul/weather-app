@@ -47,16 +47,6 @@ export const useWeather = defineStore('weather', () => {
         }
     };
 
-    function getLocalTime(dt: number, timezone: number): string {
-        const localTime = new Date((dt + timezone) * 1000);
-        return localTime.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
-    }
-
-    function formatDateWithTimezone(dt: number, timezone: number): string {
-        const date = new Date((dt + timezone) * 1000);
-        return date.toLocaleString('en-US', {weekday: 'long', day: '2-digit', month: 'long', year: 'numeric'});
-    }
-
     const fetchWeatherDetails = async () => {
         const locations: Favorite[] = favorites.favorites
 
@@ -77,6 +67,27 @@ export const useWeather = defineStore('weather', () => {
         }
     }
 
+    function getLocalTime(timezoneOffsetInSeconds: number): string {
+        const now = new Date();
+        const localDate = new Date(now.getTime() + timezoneOffsetInSeconds * 1000);
+
+        return localDate.toLocaleTimeString('en-US',
+            {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}
+        );
+    }
+
+    function formatDateWithTimezone(timezoneOffsetInSeconds: number): string {
+        const now = new Date();
+        const localDate = new Date(now.getTime() + timezoneOffsetInSeconds * 1000);
+        return localDate.toLocaleString('en-US', {
+            weekday: 'long',
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+            timeZone: 'UTC'
+        });
+    }
+
     const getWeatherDataByCords = async (lat: number, lon: number, isCurrentLocation?: boolean): Promise<DetailedLocationWeather> => {
         const cachedData = locationsWeatherData.value.find(
             (data: any) => data.id === `${lat}-${lon}`
@@ -87,9 +98,10 @@ export const useWeather = defineStore('weather', () => {
         }
 
         try {
-            const response = await fetch(
-                `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
-            );
+            const response = await
+                fetch(
+                    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+                );
 
             const data = await response.json();
 
@@ -139,8 +151,8 @@ export const useWeather = defineStore('weather', () => {
                 location_country: data.city.country,
                 weather_condition: data.list[0]?.weather[0]?.description || "No description",
                 temperature: data.list[0]?.main?.temp.toFixed(0),
-                time: getLocalTime(data.list[0]?.dt, data.city.timezone),
-                datetime: formatDateWithTimezone(data.list[0]?.dt, data.city.timezone),
+                time: getLocalTime(data.city.timezone),
+                datetime: formatDateWithTimezone(data.city.timezone),
                 coord: {
                     lon,
                     lat,
@@ -149,7 +161,7 @@ export const useWeather = defineStore('weather', () => {
                 hourly_forecast: hourlyForecast.slice(0, 5),
                 daily_forecast: dailyForecastArray,
                 overview_location_name: isCurrentLocation ? 'My Location' : data.city.name,
-                overview_time: isCurrentLocation ? data.city.name : getLocalTime(data.list[0]?.dt, data.city.timezone),
+                overview_time: isCurrentLocation ? data.city.name : getLocalTime(data.city.timezone),
                 last_updated: lastUpdatedTime,
             };
 
