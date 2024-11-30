@@ -33,7 +33,7 @@ const props = defineProps(['cityDetails'])
   align-items: center;
   flex-direction: column;
   padding: 10px;
-  gap: 1.3rem;
+  gap: 1.1rem;
   cursor: pointer;
 
   > div {
@@ -47,10 +47,10 @@ const props = defineProps(['cityDetails'])
     &__details {
       display: flex;
       flex-direction: column;
-      gap: 5px;
 
       .top__details__location {
         font-size: 1.2rem;
+        font-weight: 550;
       }
 
       .top__details__time {
@@ -64,7 +64,7 @@ const props = defineProps(['cityDetails'])
 
   &__bottom {
     &__condition {
-      font-size: .7rem;
+      font-size: 1rem;
     }
 
     &__cords {
