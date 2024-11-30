@@ -7,6 +7,8 @@ import type {
     HourlyForecast
 } from "~/types/weather";
 import {useErrorHandler} from "~/stores/errorHandler";
+import {useFavorites} from '~/stores/favorites'
+import {ref, watch} from 'vue'
 
 // Hard coded API KEY for development purposes
 const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
@@ -188,6 +190,7 @@ export const useWeather = defineStore('weather', () => {
         isSuggestionsLoading,
         fetchSuggestions,
         fetchWeatherDetails,
-        getWeatherDataByCords
+        getWeatherDataByCords,
+        formatDateWithTimezone
     }
 })
