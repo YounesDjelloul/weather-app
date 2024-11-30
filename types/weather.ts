@@ -41,7 +41,9 @@ export interface DetailedLocationWeather {
     },
     weather_icon_url: string
     hourly_forecast?: HourlyForecast[]
-    daily_forecast?: DailyForecast[]
+    daily_forecast?: DailyForecast[],
+    overview_location_name: string
+    overview_time: string
 }
 
 export interface WeatherApiResponse {

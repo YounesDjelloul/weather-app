@@ -6,8 +6,8 @@ const props = defineProps(['cityDetails'])
   <div class="city">
     <div class="city__top">
       <div class="city__top__details">
-        <span class="top__details__location">{{ cityDetails.location_name }}</span>
-        <span class="top__details__time">{{ cityDetails.time }}</span>
+        <span class="top__details__location">{{ cityDetails.overview_location_name }}</span>
+        <span class="top__details__time">{{ cityDetails.overview_time }}</span>
       </div>
       <div class="city__top__temperature">
         {{ cityDetails.temperature }}°

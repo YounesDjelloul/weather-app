@@ -142,13 +142,9 @@ export const useWeather = defineStore('weather', () => {
                 weather_icon_url: `https://openweathermap.org/img/wn/${data.list[0]?.weather[0]?.icon}@2x.png`,
                 hourly_forecast: hourlyForecast.slice(0, 5),
                 daily_forecast: dailyForecastArray,
+                overview_location_name: isCurrentLocation ? 'My Location' : data.city.name,
+                overview_time: isCurrentLocation ? data.city.name : getLocalTime(data.list[0]?.dt, data.city.timezone)
             };
-
-            if (isCurrentLocation) {
-                const currentLocationPlaceholder = 'My Location'
-                weatherData.time = weatherData.location_name
-                weatherData.location_name = currentLocationPlaceholder;
-            }
 
             locationsWeatherData.value.push(weatherData);
 
