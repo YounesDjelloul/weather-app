@@ -11,6 +11,7 @@ import {useFavorites} from '~/stores/favorites'
 import {ref, watch} from 'vue'
 import {formatDateWithTimezone, getLocalTime, isDaytime} from "~/utils/weather-date-time";
 import {getBackgroundImage} from "~/utils/weather-background-mapper";
+import {useNuxtApp} from '#app'
 
 export const useWeather = defineStore('weather', () => {
     let {$axios} = useNuxtApp()
