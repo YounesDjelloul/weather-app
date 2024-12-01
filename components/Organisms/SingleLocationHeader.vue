@@ -1,51 +1,15 @@
 <script setup lang="ts">
 import {inject} from 'vue'
-import type {DetailedLocationWeather, Favorite} from "~/types/weather";
+import type {DetailedLocationWeather} from "~/types/weather";
+import SingleLocationHeaderNavigation from "~/components/Molecules/SingleLocationHeaderNavigation.vue";
 
-const favorites = useFavorites()
 const weather = useWeather()
 const cityDetails: Ref<DetailedLocationWeather> = inject('cityDetails')
-
-const getCitySavingDetails = (): Favorite => {
-  return {
-    id: cityDetails.value.id,
-    lat: cityDetails.value.coord.lat,
-    lon: cityDetails.value.coord.lon
-  }
-}
-
-const actionIconToShow = computed(() => {
-  return favorites.favorites.some((fav) => fav.id === cityDetails?.value.id)
-      ? 'mynaui:trash-solid'
-      : 'mingcute:add-line'
-})
-
-const handleAction = () => {
-  if (favorites.isLocationInFavorite(cityDetails?.value.id)) {
-    favorites.deleteFavoriteLocation(cityDetails?.value.id)
-    return
-  }
-
-  favorites.saveFavoriteLocation(getCitySavingDetails())
-}
 </script>
 
 <template>
   <header class="single-location-header">
-    <div class="single-location-header__navigation">
-      <Icon class="single-location-header__navigation__back-action" name="ep:arrow-left" @click="navigateTo('/')"/>
-      <span class="single-location-header__navigation__location">{{
-          cityDetails?.location_name
-        }}, {{ cityDetails?.location_country }}</span>
-      <transition name="icon-flip">
-        <Icon
-            :key="actionIconToShow"
-            @click="handleAction"
-            class="single-location-header__navigation__save-action"
-            :name="actionIconToShow"
-        />
-      </transition>
-    </div>
+    <SingleLocationHeaderNavigation/>
     <div class="single-location-header__date">
       {{ cityDetails?.datetime }}
     </div>
@@ -62,30 +26,6 @@ const handleAction = () => {
 </template>
 
 <style scoped lang="scss">
-.icon-flip-enter-active {
-  transition: transform 0.9s ease, opacity 0.4s ease;
-}
-
-.icon-flip-leave-active {
-  transition: transform 0.1s ease, opacity 0.1s ease;
-}
-
-.icon-flip-enter-from {
-  opacity: 0;
-  transform: rotateY(180deg);
-}
-
-.icon-flip-leave-to {
-  opacity: 0;
-  transform: rotateY(-180deg);
-}
-
-.icon-flip-enter-to,
-.icon-flip-leave-from {
-  opacity: 1;
-  transform: rotateY(0deg);
-}
-
 .single-location-header {
   display: flex;
   flex-direction: column;
@@ -97,17 +37,6 @@ const handleAction = () => {
   background: linear-gradient(to bottom right, #4F80FA, #3764D7, #335FD1);
   padding: 2rem 1.5rem 1rem;
   color: #FFF;
-
-  &__navigation {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    &__back-action, &__save-action {
-      cursor: pointer;
-    }
-  }
 
   &__date {
     font-size: .9rem;
