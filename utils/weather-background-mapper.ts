@@ -1,6 +1,6 @@
 import type {BackgroundMapper} from "~/types/weather";
 
-const appPrefix = '/weather-app/';
+const appPrefix = process.env.NODE_ENV === 'development' ? '/' : '/weather-app/';
 
 const weatherBackgroundMapper: BackgroundMapper = {
     clear: {
@@ -12,24 +12,24 @@ const weatherBackgroundMapper: BackgroundMapper = {
         night: `${appPrefix}images/backgrounds/cloudy-night.jpg`,
     },
     rain: {
-        day: "/images/backgrounds/rain-day.jpg",
-        night: "/images/backgrounds/rain-night.jpg",
+        day: `${appPrefix}images/backgrounds/rain-day.jpg`,
+        night: `${appPrefix}images/backgrounds/rain-night.jpg`,
     },
     thunderstorm: {
-        day: "/images/backgrounds/thunderstorm-day.jpg",
-        night: "/images/backgrounds/thunderstorm-night.jpg",
+        day: `${appPrefix}images/backgrounds/thunderstorm-day.jpg`,
+        night: `${appPrefix}images/backgrounds/thunderstorm-night.jpg`,
     },
     snow: {
-        day: "/images/backgrounds/snow-day.jpg",
-        night: "/images/backgrounds/snow-night.jpg",
+        day: `${appPrefix}images/backgrounds/snow-day.jpg`,
+        night: `${appPrefix}images/backgrounds/snow-night.jpg`,
     },
     fog: {
-        day: "/images/backgrounds/fog-day.jpg",
-        night: "/images/backgrounds/fog-night.jpg",
+        day: `${appPrefix}images/backgrounds/fog-day.jpg`,
+        night: `${appPrefix}images/backgrounds/fog-night.jpg`,
     },
     extreme: {
-        day: "/images/backgrounds/extreme-day.jpg",
-        night: "/images/backgrounds/extreme-night.jpg",
+        day: `${appPrefix}images/backgrounds/extreme-day.jpg`,
+        night: `${appPrefix}images/backgrounds/extreme-night.jpg`,
     }
 };
 
