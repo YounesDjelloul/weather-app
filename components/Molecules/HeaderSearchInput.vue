@@ -18,7 +18,6 @@ const q = ref('')
   .search-input {
     width: 90%;
     height: 2.35rem;
-    margin: 0 auto;
     position: relative;
     display: flex;
     align-items: center;
