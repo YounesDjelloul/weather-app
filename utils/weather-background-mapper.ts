@@ -1,15 +1,15 @@
 import type {BackgroundMapper} from "~/types/weather";
 
-const config = useRuntimeConfig();
+const appPrefix = '/weather-app/';
 
 const weatherBackgroundMapper: BackgroundMapper = {
     clear: {
-        day: `${config.app.baseURL}images/backgrounds/clear-day.jpg`,
-        night: `${config.app.baseURL}images/backgrounds/clear-night.jpg`,
+        day: `${appPrefix}images/backgrounds/clear-day.jpg`,
+        night: `${appPrefix}images/backgrounds/clear-night.jpg`,
     },
     clouds: {
-        day: `${config.app.baseURL}images/backgrounds/cloudy-day.jpg`,
-        night: `${config.app.baseURL}images/backgrounds/cloudy-night.jpg`,
+        day: `${appPrefix}images/backgrounds/cloudy-day.jpg`,
+        night: `${appPrefix}images/backgrounds/cloudy-night.jpg`,
     },
     rain: {
         day: "/images/backgrounds/rain-day.jpg",
