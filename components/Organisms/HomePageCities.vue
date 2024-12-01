@@ -22,29 +22,12 @@ const weather = useWeather()
 </template>
 
 <style scoped>
+@import "styles/transitions.scss";
+
 .cities {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-.city-list-enter-active,
-.city-list-leave-active {
-  transition: all 0.5s ease;
-}
-
-.city-list-enter-from {
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.city-list-leave-to {
-  opacity: 0;
-  transform: translateY(-30px);
-}
-
-.city-list-move {
-  transition: transform 0.5s ease;
 }
 </style>
