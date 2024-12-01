@@ -9,7 +9,7 @@ const props = defineProps<{
 <template>
   <div class="hour-forecast" role="listitem">
     <div class="hour-forecast__image">
-      <img :src="forecastDetails.weather_icon_url" alt="Forecast Image" />
+      <img :src="forecastDetails.weather_icon_url" alt="Forecast Image"/>
     </div>
     <div class="hour-forecast__temperature">
       {{ forecastDetails.temperature }}°
@@ -43,6 +43,8 @@ const props = defineProps<{
     img {
       width: 100%;
       height: 100%;
+      filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2));
+      transition: filter 0.3s ease;
     }
   }
 
