@@ -62,8 +62,6 @@ onMounted(async () => {
   flex-direction: column;
   gap: 1.5rem;
   background-color: #FFF;
-  padding: 20px;
-  margin-top: 30px;
   position: relative;
 
   &__no-cities {

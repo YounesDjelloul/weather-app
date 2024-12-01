@@ -17,7 +17,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 1.3rem .5rem;
+  padding: 0 .5rem 1.3rem;
   gap: 35%;
 
   &__back-icon {

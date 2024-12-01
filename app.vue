@@ -18,9 +18,14 @@
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .app {
   width: 100%;
   max-width: 350px;
-  margin: 0 auto;
+  margin: 40px auto;
 }
 </style>
