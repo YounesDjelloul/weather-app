@@ -16,7 +16,7 @@ const q = ref('')
 
 <style scoped lang="scss">
   .search-input {
-    width: 100%;
+    width: 90%;
     height: 2.35rem;
     margin: 0 auto;
     position: relative;

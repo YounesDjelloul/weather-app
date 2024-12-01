@@ -3,6 +3,7 @@ import HeaderSearchInput from "~/components/Molecules/HeaderSearchInput.vue";
 import {CModal, CModalBody} from "@coreui/vue/dist/esm/components/modal";
 import PageLoader from "~/components/Molecules/PageLoader.vue";
 import type {SearchResult} from "~/types/weather";
+import SearchPopupClosure from "~/components/Molecules/SearchPopupClosure.vue";
 
 const props = defineProps(['searchPopupIsOpen'])
 const emit = defineEmits(['toggleSearchPopup'])
@@ -29,7 +30,8 @@ const zoomInSuggestion = (suggestion: SearchResult) => {
   >
     <CModalBody>
       <div class="search">
-        <HeaderSearchInput  />
+        <HeaderSearchInput/>
+        <SearchPopupClosure @close-popup="emit('toggleSearchPopup')" />
         <div class="search__results">
           <div
               class="search__results__placeholder"
@@ -39,9 +41,9 @@ const zoomInSuggestion = (suggestion: SearchResult) => {
           </div>
           <PageLoader v-if="weather.isSuggestionsLoading"/>
           <div
-            v-else
-            v-for="suggestion in weather.suggestions"
-            @click="zoomInSuggestion(suggestion)"
+              v-else
+              v-for="suggestion in weather.suggestions"
+              @click="zoomInSuggestion(suggestion)"
           >
             {{ suggestion.location_name }}, {{ suggestion.location_country }}
           </div>
