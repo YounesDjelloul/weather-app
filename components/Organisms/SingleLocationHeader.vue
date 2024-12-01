@@ -3,6 +3,7 @@ import {inject} from 'vue'
 import type {DetailedLocationWeather, Favorite} from "~/types/weather";
 
 const favorites = useFavorites()
+const weather = useWeather()
 const cityDetails: Ref<DetailedLocationWeather> = inject('cityDetails')
 
 const getCitySavingDetails = (): Favorite => {
@@ -53,8 +54,9 @@ const handleAction = () => {
       <div>{{ cityDetails?.temperature }}° C</div>
       <div>{{ cityDetails?.weather_condition }}</div>
     </div>
-    <div class="single-location-header__last-update">
+    <div class="single-location-header__last-update" @click='weather.refreshLocationData(cityDetails)'>
       Last update at {{ cityDetails.last_updated }}
+      <Icon name="mdi-light:refresh"/>
     </div>
   </header>
 </template>
@@ -126,6 +128,14 @@ const handleAction = () => {
 
   &__last-update {
     font-size: .8rem;
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    cursor: pointer;
+
+    span {
+      font-size: 1rem;
+    }
   }
 }
 </style>
