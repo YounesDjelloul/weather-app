@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     modules: ['@nuxt/icon', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
     app: {
         baseURL: '/weather-app/',
+        buildAssetsDir: '/_nuxt/',
         pageTransition: {
             name: 'page',
             mode: 'out-in'
