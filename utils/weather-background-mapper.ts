@@ -70,7 +70,6 @@ export const getBackgroundImage = (
     isDaytime: boolean
 ): string => {
     const category = mapWeatherConditionToCategory(condition.toLowerCase());
-    console.log(weatherBackgroundMapper[category].day);
     return isDaytime
         ? weatherBackgroundMapper[category].day
         : weatherBackgroundMapper[category].night;

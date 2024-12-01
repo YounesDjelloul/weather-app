@@ -12,11 +12,10 @@ import {ref, watch} from 'vue'
 import {formatDateWithTimezone, getLocalTime, isDaytime} from "~/utils/weather-date-time";
 import {getBackgroundImage} from "~/utils/weather-background-mapper";
 
-// Hard coded API KEY for demo purposes, otherwise it should reside
-// As an environment variable in whichever provider being used.
-const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
-
 export const useWeather = defineStore('weather', () => {
+    let {$axios} = useNuxtApp()
+    const api = $axios()
+
     const favorites = useFavorites()
     const errorHandler = useErrorHandler();
     const isRefreshing = ref(false);
@@ -33,11 +32,8 @@ export const useWeather = defineStore('weather', () => {
 
         try {
             isSuggestionsLoading.value = true
-            const response = await fetch(
-                `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5&appid=${apiKey}`
-            );
+            const {data} = await api.get(`/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5`);
 
-            const data = await response.json();
             suggestions.value = data.map((location: any) => ({
                 id: location.id,
                 location_name: location.name,
@@ -83,12 +79,8 @@ export const useWeather = defineStore('weather', () => {
         }
 
         try {
-            const response = await
-                fetch(
-                    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
-                );
-
-            const data = await response.json();
+            const {data} = await
+                api.get(`/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric`);
 
             const hourlyForecast: HourlyForecast[] = data.list.map((item: any) => ({
                 time: item.dt_txt.split(" ")[1].substring(0, 5),
@@ -152,7 +144,6 @@ export const useWeather = defineStore('weather', () => {
                 background_image_url: getBackgroundImage(data.list[0]?.weather[0]?.description, isDaytime(data.city.timezone))
             };
         } catch (error) {
-            console.log(error);
             errorHandler.handleError(error, {
                 customMessage: 'Failed to fetch data',
                 type: 'error'
