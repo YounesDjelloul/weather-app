@@ -1,6 +1,7 @@
 import {defineStore} from "pinia";
 import type {ProfileFormInput, UserDetails} from "~/types/user";
 import {z} from "zod";
+import {ref, computed} from 'vue'
 
 export const useUser = defineStore('user', () => {
     const formInputs: Ref<ProfileFormInput[]> = ref([
@@ -107,5 +108,6 @@ export const useUser = defineStore('user', () => {
         formSchema,
         formState,
         formErrors,
+        avatarPreview
     }
 })
