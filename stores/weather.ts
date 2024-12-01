@@ -9,6 +9,8 @@ import type {
 import {useErrorHandler} from "~/stores/errorHandler";
 import {useFavorites} from '~/stores/favorites'
 import {ref, watch} from 'vue'
+import {formatDateWithTimezone, getLocalTime, isDaytime} from "~/utils/weather-date-time";
+import {getBackgroundImage} from "~/utils/weather-background-mapper";
 
 // Hard coded API KEY for development purposes
 const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
@@ -68,27 +70,6 @@ export const useWeather = defineStore('weather', () => {
         } catch (error) {
             locationsWeatherData.value = [];
         }
-    }
-
-    function getLocalTime(timezoneOffsetInSeconds: number): string {
-        const now = new Date();
-        const localDate = new Date(now.getTime() + timezoneOffsetInSeconds * 1000);
-
-        return localDate.toLocaleTimeString('en-US',
-            {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}
-        );
-    }
-
-    function formatDateWithTimezone(timezoneOffsetInSeconds: number): string {
-        const now = new Date();
-        const localDate = new Date(now.getTime() + timezoneOffsetInSeconds * 1000);
-        return localDate.toLocaleString('en-US', {
-            weekday: 'long',
-            day: '2-digit',
-            month: 'long',
-            year: 'numeric',
-            timeZone: 'UTC'
-        });
     }
 
     const getWeatherDataByCords = async (lat: number, lon: number, isCurrentLocation?: boolean): Promise<DetailedLocationWeather> => {
@@ -167,6 +148,7 @@ export const useWeather = defineStore('weather', () => {
                 overview_time: isCurrentLocation ? data.city.name : getLocalTime(data.city.timezone),
                 last_updated: lastUpdatedTime,
                 isCurrentLocation: isCurrentLocation || false,
+                background_image_url: getBackgroundImage(data.list[0]?.weather[0]?.description, isDaytime(data.city.timezone))
             };
         } catch (error) {
             console.log(error);

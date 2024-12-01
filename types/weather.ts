@@ -46,6 +46,7 @@ export interface DetailedLocationWeather {
     overview_time: string
     last_updated: string
     isCurrentLocation: boolean
+    background_image_url: string
 }
 
 export interface WeatherApiResponse {
@@ -89,4 +90,11 @@ export interface WeatherApiResponse {
     id: number
     name: string
     cod: number
+}
+
+export type BackgroundMapper = {
+    [key: string]: {
+        day: string;
+        night: string;
+    };
 }
