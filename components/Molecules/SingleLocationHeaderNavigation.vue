@@ -16,8 +16,8 @@ const getCitySavingDetails = (): Favorite => {
 
 const actionIconToShow = computed(() => {
   return favorites.favorites.some((fav) => fav.id === cityDetails?.value.id)
-      ? 'weui:back-outlined'
-      : 'fa-solid:trash-alt'
+      ? 'solar:trash-bin-2-bold-duotone'
+      : 'solar:add-circle-bold-duotone'
 })
 
 const handleAction = () => {
@@ -34,7 +34,7 @@ const handleAction = () => {
   <div class="single-location-header__navigation">
     <Icon
         class="single-location-header__navigation__back-action"
-        name="ep:arrow-left"
+        name="weui:back-outlined"
         @click="navigateTo('/')"
         role="button"
     />
