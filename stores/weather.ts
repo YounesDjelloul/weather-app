@@ -12,7 +12,8 @@ import {ref, watch} from 'vue'
 import {formatDateWithTimezone, getLocalTime, isDaytime} from "~/utils/weather-date-time";
 import {getBackgroundImage} from "~/utils/weather-background-mapper";
 
-// Hard coded API KEY for development purposes
+// Hard coded API KEY for demo purposes, otherwise it should reside
+// As an environment variable in whichever provider being used.
 const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
 
 export const useWeather = defineStore('weather', () => {
