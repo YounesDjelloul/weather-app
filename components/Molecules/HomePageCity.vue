@@ -3,7 +3,7 @@ const props = defineProps(['cityDetails'])
 </script>
 
 <template>
-  <div class="city">
+  <div class="city" :style="{ backgroundImage: `url(${cityDetails.background_image_url})` }">
     <div class="city__top">
       <div class="city__top__details">
         <span class="top__details__location">{{ cityDetails.overview_location_name }}</span>
@@ -27,7 +27,7 @@ const props = defineProps(['cityDetails'])
 .city {
   width: 100%;
   border-radius: 15px;
-  background-color: #f4f4f4;
+  background-color: #f4f4f4; // default in case of
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -35,6 +35,8 @@ const props = defineProps(['cityDetails'])
   padding: 10px;
   gap: 1.1rem;
   cursor: pointer;
+  background-size: contain;
+  color: #FFF;
 
   > div {
     width: 100%;
@@ -57,6 +59,7 @@ const props = defineProps(['cityDetails'])
         font-size: .8rem;
       }
     }
+
     &__temperature {
       font-size: 2.3rem;
     }
