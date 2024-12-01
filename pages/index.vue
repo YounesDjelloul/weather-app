@@ -63,6 +63,7 @@ onMounted(async () => {
   gap: 1.5rem;
   background-color: #FFF;
   position: relative;
+  padding: 40px .7rem 0;
 
   &__no-cities {
     font-weight: 550;

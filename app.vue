@@ -26,6 +26,6 @@ a {
 .app {
   width: 100%;
   max-width: 350px;
-  margin: 40px auto;
+  margin: 0 auto;
 }
 </style>

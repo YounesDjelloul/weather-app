@@ -26,7 +26,7 @@ const user = useUser()
   width: 100%;
   height: 95vh;
   gap: 1.4rem;
-  padding-bottom: 2.5rem;
+  padding: 40px 1rem 2.5rem 0;
   position: relative;
 }
 </style>
