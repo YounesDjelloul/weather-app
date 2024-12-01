@@ -1,7 +1,7 @@
 # Overview
 The application is a demonstration of a Weather App designed with the following functionalities in mind:
 1. Location based weather details.
-2. Favorites cart our of the box.
+2. Favorites cart out of the box.
 3. Searching functionality by city, country, zip code..etc.
 4. Profile management.
 
