@@ -16,8 +16,8 @@ const isOpen = computed({
 const weather = useWeather()
 
 const zoomInSuggestion = (suggestion: SearchResult) => {
-  emit('toggleSearchPopup')
   navigateTo(`cities/?lat=${suggestion.lat}&lon=${suggestion.lon}`)
+  emit('toggleSearchPopup')
 }
 </script>
 
