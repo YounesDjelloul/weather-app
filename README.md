@@ -28,15 +28,6 @@ with the following details:
 NUXT_PUBLIC_WEATHER_API_KEY=e029cd0b391dd1ff63d7c931f3be71dd
 ```
 
-## Environment Variables
-
-The open weather map API key used is hard coded (for your convenience), though the application is expecting a .env file
-with the following content:
-
-```
-NUXT_PUBLIC_WEATHER_API_KEY=e029cd0b391dd1ff63d7c931f3be71dd
-```
-
 # Local Setup
 
 ## Setup
