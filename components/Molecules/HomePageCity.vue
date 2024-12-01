@@ -35,7 +35,9 @@ const props = defineProps(['cityDetails'])
   padding: 10px;
   gap: 1.1rem;
   cursor: pointer;
-  background-size: contain;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #FFF;
 
   > div {
