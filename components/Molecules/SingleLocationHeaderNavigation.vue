@@ -16,8 +16,8 @@ const getCitySavingDetails = (): Favorite => {
 
 const actionIconToShow = computed(() => {
   return favorites.favorites.some((fav) => fav.id === cityDetails?.value.id)
-      ? 'mynaui:trash-solid'
-      : 'mingcute:add-line'
+      ? 'weui:back-outlined'
+      : 'fa-solid:trash-alt'
 })
 
 const handleAction = () => {
