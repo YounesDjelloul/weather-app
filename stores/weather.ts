@@ -191,6 +191,7 @@ export const useWeather = defineStore('weather', () => {
         fetchSuggestions,
         fetchWeatherDetails,
         getWeatherDataByCords,
-        formatDateWithTimezone
+        formatDateWithTimezone,
+        getLocalTime
     }
 })

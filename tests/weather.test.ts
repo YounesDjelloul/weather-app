@@ -97,4 +97,29 @@ describe('Weather Store', () => {
             expect(weatherStore.locationsWeatherData[0]).toHaveProperty('location_name', 'New York')
         })
     })
+
+    describe('Time and Date Formatting', () => {
+        it('should correctly format local time', () => {
+            const localTime = weatherStore.getLocalTime(3600)
+            expect(localTime).toMatch(/\d{2}:\d{2}/)
+        })
+
+        it('should correctly format date with timezone', () => {
+            const formattedDate = (weatherStore as any).formatDateWithTimezone(3600)
+
+            expect(formattedDate).toBeTruthy()
+
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+            const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+            const dateParts = formattedDate.split(',')
+
+            const receivedDay = dateParts[0]
+            const receivedMonth = dateParts[1].trim().split(' ')[0]
+            const receivedYear = dateParts[2].trim()
+
+            expect(weekdays).toContain(receivedDay)
+            expect(months).toContain(receivedMonth)
+            expect(parseInt(receivedYear)).toBeGreaterThan(2000)
+        })
+    })
 })
