@@ -54,7 +54,7 @@ const handleAction = () => {
 </template>
 
 <style scoped lang="scss">
-@import "styles/transitions";
+@import "../../assets/styles/transitions";
 
 .single-location-header__navigation {
   width: 100%;

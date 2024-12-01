@@ -10,7 +10,7 @@
 <style lang="scss">
 @import '@coreui/coreui/dist/css/coreui.min.css';
 @import 'vue3-toastify/dist/index.css';
-@import 'styles/transitions';
+@import 'assets/styles/transitions';
 
 * {
   box-sizing: border-box;

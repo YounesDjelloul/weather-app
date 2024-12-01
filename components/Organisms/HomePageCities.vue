@@ -22,7 +22,7 @@ const weather = useWeather()
 </template>
 
 <style scoped>
-@import "styles/transitions.scss";
+@import "../../assets/styles/transitions.scss";
 
 .cities {
   width: 100%;
