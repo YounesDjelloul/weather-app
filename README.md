@@ -1,9 +1,26 @@
+# Overview
+The application is a demonstration of a Weather App designed with the following functionalities in mind:
+1. Location based weather details.
+2. Favorites cart our of the box.
+3. Searching functionality by city, country, zip code..etc.
+4. Profile management.
+
+The application is using nuxt3 with vite and vitest as a testing framework, along with pnpm as a package manager.
+
 ## Setup
 
 Make sure to install dependencies:
 
 ```bash
-npm install
+pnpm install
+```
+
+## Application Tests
+
+To run all the tests available:
+
+```bash
+pnpm run test
 ```
 
 ## Development Server
@@ -11,7 +28,7 @@ npm install
 Start the development server on `http://localhost:3000`:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ## Production
@@ -19,11 +36,11 @@ npm run dev
 Build the application for production:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Locally preview production build:
 
 ```bash
-npm run preview
+pnpm run preview
 ```
