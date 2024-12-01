@@ -36,7 +36,8 @@ export const useFavorites = defineStore('favorites', () => {
         currentLocationDeleted,
         saveFavoriteLocation,
         deleteFavoriteLocation,
-        getFavoriteLocations
+        getFavoriteLocations,
+        isLocationInFavorite
     };
 }, {
     persist: process.env.NODE_ENV !== 'test' ? {

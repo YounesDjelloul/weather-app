@@ -16,6 +16,7 @@ const apiKey = 'e029cd0b391dd1ff63d7c931f3be71dd';
 export const useWeather = defineStore('weather', () => {
     const favorites = useFavorites()
     const errorHandler = useErrorHandler();
+    const isRefreshing = ref(false);
 
     const suggestions: Ref<SearchResult[]> = ref([]);
     const locationsWeatherData: Ref<DetailedLocationWeather[]> = ref([]);
@@ -147,7 +148,7 @@ export const useWeather = defineStore('weather', () => {
                 hour12: true,
             }).replace(/:\d{2}/, ":00");
 
-            const weatherData: DetailedLocationWeather = {
+            return {
                 id: `${lat}-${lon}`,
                 location_name: data.city.name,
                 location_country: data.city.country,
@@ -165,11 +166,8 @@ export const useWeather = defineStore('weather', () => {
                 overview_location_name: isCurrentLocation ? 'My Location' : data.city.name,
                 overview_time: isCurrentLocation ? data.city.name : getLocalTime(data.city.timezone),
                 last_updated: lastUpdatedTime,
+                isCurrentLocation: isCurrentLocation || false,
             };
-
-            locationsWeatherData.value.push(weatherData);
-
-            return weatherData;
         } catch (error) {
             console.log(error);
             errorHandler.handleError(error, {
@@ -180,6 +178,18 @@ export const useWeather = defineStore('weather', () => {
         }
     }
 
+    const refreshLocationData = async (cityDetails: DetailedLocationWeather) => {
+        isRefreshing.value = true
+        const {id, isCurrentLocation, coord: {lat, lon}} = cityDetails;
+
+        locationsWeatherData.value = locationsWeatherData.value.filter(
+            (location) => location.id !== id
+        );
+
+        locationsWeatherData.value.push(await getWeatherDataByCords(lat, lon, isCurrentLocation));
+        setTimeout(() => isRefreshing.value = false, 250)
+    }
+
     watch(() => [...favorites.favorites], async () => {
         await fetchWeatherDetails();
     }, {immediate: true});
@@ -188,10 +198,12 @@ export const useWeather = defineStore('weather', () => {
         suggestions,
         locationsWeatherData,
         isSuggestionsLoading,
+        isRefreshing,
         fetchSuggestions,
         fetchWeatherDetails,
         getWeatherDataByCords,
         formatDateWithTimezone,
-        getLocalTime
+        getLocalTime,
+        refreshLocationData
     }
 })

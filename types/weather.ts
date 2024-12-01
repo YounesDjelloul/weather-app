@@ -45,6 +45,7 @@ export interface DetailedLocationWeather {
     overview_location_name: string
     overview_time: string
     last_updated: string
+    isCurrentLocation: boolean
 }
 
 export interface WeatherApiResponse {

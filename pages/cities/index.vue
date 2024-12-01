@@ -24,8 +24,8 @@ onMounted(async () => {
 
 <template>
   <div class="city-details">
-    <PageLoader v-if="isLoading" />
-    <div class="city-details__no-data" v-else-if="!isLoading && !cityDetails">No data Found</div>
+    <PageLoader v-if="isLoading || weather.isRefreshing" />
+    <div class="city-details__no-data" v-else-if="!isLoading && !weather.isRefreshing && !cityDetails">No data Found</div>
     <SingleLocation v-else/>
   </div>
 </template>
