@@ -1,11 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    ssr: false,
     compatibilityDate: '2024-11-01',
     devtools: {enabled: true},
     modules: ['@nuxt/icon', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
     app: {
-        baseURL: '',
+        baseURL: '/weather-app/',
         pageTransition: {
             name: 'page',
             mode: 'out-in'
