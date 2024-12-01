@@ -3,7 +3,7 @@ const props = defineProps(['cityDetails'])
 </script>
 
 <template>
-  <div class="city" :style="{ backgroundImage: `url(${cityDetails.background_image_url})` }">
+  <div class="city" :style="{ backgroundImage: `url(${cityDetails.background_image_url})` }" role="listitem">
     <div class="city__top">
       <div class="city__top__details">
         <span class="top__details__location">{{ cityDetails.overview_location_name }}</span>

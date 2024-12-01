@@ -32,12 +32,18 @@ const handleAction = () => {
 
 <template>
   <div class="single-location-header__navigation">
-    <Icon class="single-location-header__navigation__back-action" name="ep:arrow-left" @click="navigateTo('/')"/>
+    <Icon
+        class="single-location-header__navigation__back-action"
+        name="ep:arrow-left"
+        @click="navigateTo('/')"
+        role="button"
+    />
     <span class="single-location-header__navigation__location">{{
         cityDetails?.location_name
       }}, {{ cityDetails?.location_country }}</span>
     <transition name="icon-flip">
       <Icon
+          role="button"
           :key="actionIconToShow"
           @click="handleAction"
           class="single-location-header__navigation__save-action"

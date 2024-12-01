@@ -4,7 +4,7 @@ const emit = defineEmits(['closePopup'])
 </script>
 
 <template>
-  <div class="popup-closure" @click="emit('closePopup')">
+  <div class="popup-closure" @click="emit('closePopup')" role="button">
     <Icon name="radix-icons:cross-2"/>
   </div>
 </template>

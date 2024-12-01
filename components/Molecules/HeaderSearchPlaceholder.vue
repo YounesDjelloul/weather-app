@@ -11,7 +11,7 @@ const searchPopupIsOpen = ref(false);
         :search-popup-is-open="searchPopupIsOpen"
         @toggle-search-popup="searchPopupIsOpen = false"
     />
-    <div class="search-input-placeholder" @click="searchPopupIsOpen=true">
+    <div class="search-input-placeholder" @click="searchPopupIsOpen=true" role="button">
       <div class="search-input-placeholder__icon">
         <Icon name="si:search-duotone" />
       </div>

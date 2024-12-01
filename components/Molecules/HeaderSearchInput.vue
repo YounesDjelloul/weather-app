@@ -5,7 +5,7 @@ const q = ref('')
 
 <template>
   <div>
-    <div class="search-input">
+    <div class="search-input" role="searchbox">
       <div class="search-input__icon">
         <Icon name="si:search-duotone" />
       </div>

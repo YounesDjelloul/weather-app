@@ -10,7 +10,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="week-forecast">
+  <div class="week-forecast" role="listitem">
     <WeekForecastTitle
       :forecast-condition="forecastDetails.weather_condition"
       :forecast-day="forecastDetails.day"

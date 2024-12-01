@@ -7,7 +7,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="hour-forecast">
+  <div class="hour-forecast" role="listitem">
     <div class="hour-forecast__image">
       <img :src="forecastDetails.weather_icon_url" alt="Forecast Image" />
     </div>

@@ -8,8 +8,8 @@ const cityDetails: Ref<DetailedLocationWeather> | undefined = inject('cityDetail
 
 <template>
   <div class="hourly-forecast">
-    <div class="hourly-forecast__title">Hourly Forecast</div>
-    <div class="hourly-forecast__forecasts">
+    <div class="hourly-forecast__title" role="heading">Hourly Forecast</div>
+    <div class="hourly-forecast__forecasts" role="list">
       <HourForecast
           v-for="hourlyForecast in cityDetails?.hourly_forecast"
           :key="hourlyForecast.time"

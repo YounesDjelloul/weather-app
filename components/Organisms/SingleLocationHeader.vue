@@ -18,7 +18,11 @@ const cityDetails: Ref<DetailedLocationWeather> = inject('cityDetails')
       <div>{{ cityDetails?.temperature }}° C</div>
       <div>{{ cityDetails?.weather_condition }}</div>
     </div>
-    <div class="single-location-header__last-update" @click='weather.refreshLocationData(cityDetails)'>
+    <div
+        class="single-location-header__last-update"
+        @click='weather.refreshLocationData(cityDetails)'
+        role="button"
+    >
       Last update at {{ cityDetails.last_updated }}
       <Icon name="mdi-light:refresh"/>
     </div>

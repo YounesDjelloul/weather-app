@@ -3,11 +3,11 @@
 </script>
 
 <template>
-  <div class="profile-header">
-    <NuxtLink to="/">
+  <div class="profile-header" role="navigation">
+    <NuxtLink to="/" role="button">
       <Icon class="profile-header__back-icon" name="weui:back-outlined"/>
     </NuxtLink>
-    <div class="profile-header__title">Edit Profile</div>
+    <div class="profile-header__title" role="heading">Edit Profile</div>
   </div>
 </template>
 

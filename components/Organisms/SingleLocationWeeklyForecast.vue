@@ -10,8 +10,8 @@ const cityDetails: Ref<DetailedLocationWeather> | undefined = inject('cityDetail
 
 <template>
   <div class="weekly-forecast">
-    <div class="weekly-forecast__title">Weekly Forecast</div>
-    <div class="weekly-forecast__forecasts">
+    <div class="weekly-forecast__title" role="heading">Weekly Forecast</div>
+    <div class="weekly-forecast__forecasts" role="list">
       <WeekForecast
           v-for="dailyForecast in cityDetails?.daily_forecast"
           :key="dailyForecast.day"

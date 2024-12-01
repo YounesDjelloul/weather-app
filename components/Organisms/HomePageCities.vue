@@ -5,7 +5,7 @@ const weather = useWeather()
 </script>
 
 <template>
-  <div class="cities">
+  <div class="cities" role="list">
     <TransitionGroup
         name="city-list"
         tag="div"
