@@ -3,7 +3,9 @@
 
 <template>
   <div class="app">
-    <NuxtPage/>
+    <suspense>
+      <NuxtPage/>
+    </suspense>
   </div>
 </template>
 
