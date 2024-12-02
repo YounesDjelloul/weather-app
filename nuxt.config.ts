@@ -3,6 +3,11 @@ export default defineNuxtConfig({
     compatibilityDate: '2024-11-01',
     devtools: {enabled: true},
     modules: ['@nuxt/icon', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
+    icon: {
+        serverBundle: {
+            collections: ['uil', 'mdi', 'weui', 'solar', 'eva']
+        }
+    },
     app: {
         baseURL: '/weather-app/',
         buildAssetsDir: '/_nuxt/',
