@@ -9,7 +9,7 @@ export default defineNuxtConfig({
         }
     },
     app: {
-        baseURL: '',
+        baseURL: process.env.NODE_ENV === 'development' ? '' : '/weather-app/',
         buildAssetsDir: '/_nuxt/',
         pageTransition: {
             name: 'page',
