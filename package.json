@@ -13,6 +13,10 @@
   "dependencies": {
     "@coreui/coreui": "^5.2.0",
     "@coreui/vue": "^5.4.1",
+    "@iconify-json/mdi-light": "^1.2.1",
+    "@iconify-json/radix-icons": "^1.2.1",
+    "@iconify-json/solar": "^1.2.1",
+    "@iconify-json/weui": "^1.2.1",
     "@nuxt/icon": "^1.8.2",
     "@nuxtjs/axios": "^5.13.6",
     "@pinia/nuxt": "^0.7.0",
