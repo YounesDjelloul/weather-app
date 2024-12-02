@@ -3,6 +3,8 @@ import type {ProfileFormInput, UserDetails} from "~/types/user";
 import {z} from "zod";
 import {ref, computed} from 'vue'
 
+const appPrefix = process.env.NODE_ENV === 'development' ? '/' : '/weather-app/';
+
 export const useUser = defineStore('user', () => {
     const formInputs: Ref<ProfileFormInput[]> = ref([
         {
@@ -25,7 +27,7 @@ export const useUser = defineStore('user', () => {
         fullname: 'Jane Doe',
         email: 'younes@example.com',
         phone: '0123456789',
-        avatar_url: '/images/avatar-sample.jpg'
+        avatar_url: `${appPrefix}images/avatar-sample.jpg`
     });
 
     const formSchema = z.object({

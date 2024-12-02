@@ -2,6 +2,8 @@ import {setActivePinia, createPinia} from 'pinia'
 import {beforeEach, describe, expect, it, vi} from 'vitest'
 import {useUser} from '~/stores/user'
 
+const appPrefix = process.env.NODE_ENV === 'development' ? '/' : '/weather-app/';
+
 describe('User Store', () => {
     let userStore: ReturnType<typeof useUser>;
 
@@ -16,7 +18,7 @@ describe('User Store', () => {
                 fullname: 'Jane Doe',
                 email: 'younes@example.com',
                 phone: '0123456789',
-                avatar_url: '/images/avatar-sample.jpg'
+                avatar_url: `${appPrefix}images/avatar-sample.jpg`
             })
         })
 
@@ -90,7 +92,7 @@ describe('User Store', () => {
 
     describe('Avatar Handling', () => {
         it('should get profile picture URL', () => {
-            expect(userStore.getProfilePictureUrl()).toBe('/images/avatar-sample.jpg')
+            expect(userStore.getProfilePictureUrl()).toBe(`${appPrefix}images/avatar-sample.jpg`)
 
             userStore.avatarPreview = 'data:image/png;base64,newImageData'
             expect(userStore.getProfilePictureUrl()).toBe('data:image/png;base64,newImageData')
