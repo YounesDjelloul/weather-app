@@ -32,27 +32,24 @@ const handleAction = () => {
 
 <template>
   <div class="single-location-header__navigation">
-    <client-only>
-      <Icon
-          class="single-location-header__navigation__back-action"
-          name="weui:back-outlined"
-          @click="navigateTo('/')"
-          role="button"
-      />
-    </client-only>
+    <Icon
+        class="single-location-header__navigation__back-action"
+        name="weui:back-outlined"
+        @click="navigateTo('/')"
+        role="button"
+    />
     <span class="single-location-header__navigation__location">{{
         cityDetails?.location_name
       }}, {{ cityDetails?.location_country }}</span>
     <transition name="icon-flip">
-      <client-only>
-        <Icon
-            role="button"
-            :key="actionIconToShow"
-            @click="handleAction"
-            class="single-location-header__navigation__save-action"
-            :name="actionIconToShow"
-        />
-      </client-only>
+      <Icon
+          role="button"
+          :key="actionIconToShow"
+          @click="handleAction"
+          class="single-location-header__navigation__save-action"
+          :name="actionIconToShow"
+      />
+      <Icon name="solar:user-bold-duotone"/>
     </transition>
   </div>
 </template>
