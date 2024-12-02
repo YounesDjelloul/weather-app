@@ -49,7 +49,6 @@ const handleAction = () => {
           class="single-location-header__navigation__save-action"
           :name="actionIconToShow"
       />
-      <Icon name="solar:user-bold-duotone"/>
     </transition>
   </div>
 </template>
